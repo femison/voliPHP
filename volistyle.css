@@ -1,0 +1,190 @@
+/* Основные стили страницы */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+}
+
+/* Стили для заголовка */
+header.header {
+    background-color: #4CAF50; /* Зеленый фон заголовка */
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header.header p {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+header.header .logout-button {
+    background-color: #dc3545; /* Красная кнопка */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+header.header .logout-button:hover {
+    background-color: #c82333;
+}
+
+/* Заголовок страницы */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* Контейнер для проектов */
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Адаптивные столбцы */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Общие стили для проекта */
+.project {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Центрируем содержимое по вертикали */
+    align-items: center; /* Центрируем содержимое по горизонтали */
+    border-left: 5px solid #4CAF50; /* Зеленая полоса для активных проектов */
+    min-height: 250px; /* Минимальная высота карточки */
+    max-width: 300px; /* Максимальная ширина карточки */
+    margin: 0 auto; /* Центрируем карточку по горизонтали */
+}
+
+.project p, .project h2 {
+    margin: 10px 0;
+    text-align: center; /* Центрируем текст внутри карточки */
+}
+
+.project h3 {
+    margin-top: 0px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.project p.no-tasks {
+    color: #555;
+    margin-top: 20px;
+}
+
+/* Стили для активных проектов */
+.projects-active .project {
+    border-left: 5px solid #4CAF50; /* Зеленая полоса слева */
+}
+
+/* Стили для завершенных проектов */
+.projects-completed .project {
+    border-left: 5px solid #6c757d; /* Серо-голубая полоса слева */
+}
+
+/* Стили для отмененных проектов */
+.projects-cancelled .project {
+    border-left: 5px solid #dc3545; /* Красная полоса слева */
+}
+
+/* Стили для задач */
+.task {
+    background-color: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    min-height: 150px;
+}
+
+.tasks-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Адаптивные колонки */
+    gap: 20px; /* Расстояние между задачами */
+    width: 100%; /* Занимает всю возможную ширину */
+    margin-top: 20px;
+}
+
+.task p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Стили для кнопки подачи заявки */
+.project button {
+    background-color: #007bff; /* Синяя кнопка */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    align-self: flex-start;
+    margin-top: 10px;
+}
+
+.project button:hover {
+    background-color: #0056b3; /* Темнее при наведении */
+}
+
+/* Стили для выпадающих списков */
+.dropdown {
+    margin: 20px;
+    position: relative;
+}
+
+.dropdown button {
+    background-color: #6c757d; /* Серый фон */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    text-align: left;
+}
+
+.dropdown button:hover {
+    background-color: #5a6268; /* Темнее при наведении */
+}
+
+.dropdown-content {
+    display: none;
+    padding: 20px;
+    background-color: #f0f2f5;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown.show .dropdown-content {
+    display: block;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .tasks-container {
+        grid-template-columns: repeat(2, minmax(200px, 1fr)); /* 2 колонки для планшетов */
+    }
+}
+
+@media (max-width: 768px) {
+    .tasks-container {
+        grid-template-columns: 1fr; /* 1 колонка для мобильных */
+    }
+}

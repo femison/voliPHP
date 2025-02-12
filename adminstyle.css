@@ -1,0 +1,354 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.tab {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: #333;
+    z-index: 1000;  /* Keeps the tabs on top */
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    color: white;
+}
+
+.tab button:hover {
+    background-color: #555;
+}
+
+.tab button.active {
+    background-color: #777;
+}
+.table-panel {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+.table-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Расстояние между формой и таблицей */
+}
+
+.table-panel th,
+.table-panel td {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.table-panel th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.table-panel tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+
+.table-panel ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.table-panel li {
+    list-style-type: disc;
+}
+
+@media screen and (max-width: 768px) {
+    .table-panel {
+        overflow-x: scroll;
+    }
+
+    .table-panel table {
+        width: 600px; /* Минимальная ширина таблицы на мобильных устройствах */
+    }
+
+    .table-panel th, .table-panel td {
+        padding: 8px; /* Уменьшаем размеры паддинга на маленьких экранах */
+    }
+}
+.tabcontent {
+    padding-top: 60px; /* Adjust padding to provide space below the fixed tab bar */
+    margin-left: 320px; /* Adjust based on the width of the form container plus extra margin */
+    height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
+    overflow: auto;  /* Adds scrollbar to tab content if needed */
+}
+
+.form-container {
+    position: fixed;
+    top: 60px; /* Below the tabs, with additional space */
+    left: 0;
+    width: 300px; /* Fixed width for the form */
+    height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
+    overflow-y: auto; /* Allows scrolling within the form */
+    padding: 20px;
+    background-color: #F6F5F2;
+    border-right: 1px solid #ddd;
+    z-index: 100; /* Ensure it's above the base content but below the tabs */
+}
+
+.directory {
+    padding: 20px;
+    overflow-x: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
+    box-sizing: border-box;
+}
+
+input[type="text"], input[type="date"], input[type="email"], select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button.addbt, button.savech {
+    width: -5%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.generate {
+    width: -5%;
+    background-color: #378CE7;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.generate:hover{
+    width: -5%;
+    background-color: #5356FF;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.canedit{
+    width: -5%;
+    background-color: #C40C0C;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;  
+}
+
+button.addbt:hover, button.savech:hover {
+    background-color: #45a049;
+}
+
+button.canedit:hover{
+    background-color: #b22c2c
+}
+
+.action-button, .DLT {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 768px) {
+    .tabcontent {
+        margin-left: 0;
+        padding-top: 60px; /* Provide space below tabs on mobile */
+    }
+    .form-container {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding-bottom: 20px;
+        margin-right: 10px;
+    }
+    .directory {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.edit-form {
+    display: none; /* Изначально скрыто */
+    position: absolute; /* Абсолютное позиционирование позволяет разместить форму точно */
+    width: 90%; /* Ширина относительно родительского блока */
+    max-width: 400px; /* Максимальная ширина, чтобы не было слишком большим */
+    background-color: #f9f9f9;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    padding: 10px;
+    z-index: 1; /* Убедитесь, что форма будет поверх других элементов */
+    border-radius: 5px; /* Скругление углов */
+}
+
+
+
+
+
+.action-button img, .action-button.DLT img {
+    width: 20px;  
+    height: 20px;
+    vertical-align: middle;
+}
+
+.action-button, .action-button.DLT {
+    padding: 10px; /* Достаточно места вокруг иконки и текста */
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+/* Стили для формы редактирования пользователя */
+#editUserForm {
+    display: none; /* Изначально скрыто */
+    background-color: #fff; /* Белый фон для формы */
+    padding: 20px; /* Отступы внутри формы */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Тень для формы */
+    border-radius: 8px; /* Скругление углов */
+    position: fixed; /* Фиксированное позиционирование */
+    top: 70px; /* Отступ сверху */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translateX(-50%); /* Точное центрирование */
+    z-index: 10; /* Убедитесь, что форма находится над другими элементами */
+    width: 90%; /* Ширина формы */
+    max-width: 400px; /* Максимальная ширина формы */
+}
+
+/* Стили для кнопок внутри формы */
+#editUserForm button {
+    background-color: #4CAF50; /* Зеленый фон для кнопок */
+    color: white; /* Белый текст */
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    border: none; /* Отсутствие границы */
+    border-radius: 4px; /* Скругленные углы кнопок */
+    cursor: pointer; /* Указатель курсора */
+    margin-top: 10px; /* Отступ сверху */
+    width: 48%; /* Ширина кнопки */
+    box-sizing: border-box; /* Размеры включают padding и border */
+}
+
+#editUserForm button:hover {
+    background-color: #45a049; /* Светло-зеленый цвет при наведении */
+}
+
+#editUserForm button:nth-child(2) {
+    float: right; /* Размещение второй кнопки справа */
+}
+
+#editUserForm input, #editUserForm select {
+    width: 100%; /* Полная ширина элементов ввода */
+    padding: 8px; /* Отступы внутри */
+    margin-top: 10px; /* Вертикальные отступы */
+    border: 1px solid #ccc; /* Серая граница */
+    border-radius: 4px; /* Скругление углов */
+}
+
+#editUserForm input[type="hidden"] {
+    display: none; /* Скрытие поля для скрытого ввода */
+}
+
+
+
+#editCredentialsModal {
+    display: none; /* Изначально скрыто */
+    position: fixed; /* Фиксированное позиционирование */
+    left: 50%; /* Центрирование по горизонтали */
+    top: 50%; /* Центрирование по вертикали */
+    transform: translate(-50%, -50%); /* Смещение для точного центрирования */
+    width: 90%; /* Ширина формы */
+    max-width: 400px; /* Максимальная ширина формы */
+    background-color: #fff; /* Белый фон */
+    padding: 20px; /* Отступы вокруг содержимого */
+    border-radius: 8px; /* Скругленные углы */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Тень для всплывающего окна */
+    z-index: 5; /* Высокий уровень z-index для наложения поверх других элементов */
+}
+
+#editCredentialsModal label {
+    font-size: 16px; /* Размер шрифта для меток */
+    color: #333; /* Цвет текста */
+    margin-bottom: 5px; /* Отступ снизу */
+}
+
+#editCredentialsModal input[type="text"],
+#editCredentialsModal input[type="password"] {
+    width: 100%; /* Полная ширина ввода */
+    padding: 8px; /* Внутренний отступ */
+    border: 1px solid #ccc; /* Граница */
+    border-radius: 4px; /* Скругление углов */
+    margin-bottom: 10px; /* Отступ снизу */
+}
+
+#editCredentialsModal button {
+    background-color: #4CAF50; /* Зеленый фон */
+    color: white; /* Белый текст */
+    padding: 10px 20px; /* Внутренние отступы */
+    border: none; /* Без границ */
+    border-radius: 4px; /* Скругленные углы */
+    cursor: pointer; /* Указатель курсора */
+    margin-right: 10px; /* Отступ справа */
+}
+
+#editCredentialsModal button[type="button"] {
+    background-color: #f44336; /* Красный фон для кнопки "Отмена" */
+}
+
+#editCredentialsModal button:hover {
+    opacity: 0.8; /* Прозрачность при наведении */
+}
+
+
+/* ---- */
+
