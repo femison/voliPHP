@@ -63,7 +63,7 @@
 
         <nav class="tab-link">
             <button class="tablinks" onclick="openTab(event, 'projects')" id="projectsTabButton">Проекты</button>
-            <button class="tablinks" onclick="openTab(event, 'applications')" id="applicationsTabButton">Задачи</button>
+            <button class="tablinks" onclick="openTab(event, 'applications')" id="applicationsTabButton">Заявки</button>
             <button class="tablinks" onclick="openTab(event, 'volunteer-book')" id="volunteerBookTabButton">Участия</button>
             <form method="post" action="index.php" style="display:inline;">
                 <button type="submit" class="logout-button">Выход</button>
@@ -209,11 +209,60 @@
 
 <!-- Секция Мои заявки -->
 <section id="applications" class="tabcontent">
-    <main>
-    <h1>Мои заявки</h1>
-    <p>Контент о заявках...</p>
-    </main>
-</section>
+            <h1>Мои заявки</h1>
+            <table class="appTable">
+                <thead>
+                    <tr>
+                        <th>ID Заявки</th>
+                        <th>Проект</th>
+                        <th>Задача</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Проверяем, если сессия с данным пользователем активна
+                    if (isset($userID)) {
+                        // Запрос для получения заявок пользователя
+                        $applications_sql = "
+                            SELECT 
+                                r.RequestID, 
+                                p.ProjectName, 
+                                t.Description AS TaskDescription
+                            FROM users_pending_approval r
+                            JOIN projects p ON r.ProjectID = p.ProjectID
+                            JOIN tasks t ON r.TaskID = t.TaskID
+                            WHERE r.UserID = " . intval($userID);
+                        
+                        $applications_result = mysqli_query($connect, $applications_sql);
+
+                        if (mysqli_num_rows($applications_result) > 0) {
+                            // Выводим каждую заявку пользователя
+                            while ($application = mysqli_fetch_assoc($applications_result)) {
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($application['RequestID']) . "</td>";
+                                echo "<td>" . htmlspecialchars($application['ProjectName']) . "</td>";
+                                echo "<td>" . htmlspecialchars($application['TaskDescription']) . "</td>";
+                                echo "<td>
+                                        <form method='post' action='volunteer\cancelRequest.php'>
+                                            <input type='hidden' name='request_id' value='" . intval($application['RequestID']) . "'>
+                                            <button type='submit' class='CancelReqBut'>Отменить заявку</button>
+                                        </form>
+                                      </td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='4'>У вас нет заявок.</td></tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>Ошибка при загрузке заявок.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </section>
+
+
 
 <!-- Секция Волонтерская книжка -->
 <section id="volunteer-book" class="tabcontent">
