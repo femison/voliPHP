@@ -105,7 +105,6 @@ body {
     padding: 20px;
     background-color: #F6F5F2;
     border-right: 1px solid #ddd;
-    z-index: 100; /* Ensure it's above the base content but below the tabs */
 }
 
 .directory {
@@ -261,7 +260,7 @@ th {
     top: 70px; /* Отступ сверху */
     left: 50%; /* Центрирование по горизонтали */
     transform: translateX(-50%); /* Точное центрирование */
-    z-index: 10; /* Убедитесь, что форма находится над другими элементами */
+    z-index: 1; /* Убедитесь, что форма находится над другими элементами */
     width: 90%; /* Ширина формы */
     max-width: 400px; /* Максимальная ширина формы */
 }

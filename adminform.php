@@ -201,6 +201,7 @@ mysqli_close($connect);
     display: inline-block;
     width: 150px;
     font-weight: bold;
+    z-index: -10;
 }
 
 #profile input[type="text"],
@@ -210,6 +211,7 @@ mysqli_close($connect);
     width: 300px;
     padding: 8px;
     margin-bottom: 10px;
+    z-index: -10;
 }
 
 #profile button {
@@ -219,13 +221,16 @@ mysqli_close($connect);
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    z-index: -10;
 }
 
 #profile button:hover {
     background-color: #0056b3;
+    z-index: -10;
 }
 </style>
-<div id="profile" class="tabcontent hidden">
+<div id="profile"  class="tabcontent">
+    
     <h2>Информация о профиле</h2>
     <form id="profileForm" method="post" action="admin/update_profile.php">
         <label for="name">Имя:</label>
@@ -890,7 +895,6 @@ function performAction(action, userTaskID) {
                                 
     <button class="addbt" type="submit" id="addButton">Добавить</button>
     </form>
-
 </div>
  <div class="directory" id="usersTable">
     <h2>Справочник пользователей</h2>
