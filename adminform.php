@@ -270,7 +270,7 @@ mysqli_close($connect);
         </td>
         <td>
         <button class="action-button" onclick="openEditCredentials(this, <?= $userCredentials['UserID']; ?>, '<?= htmlspecialchars($userCredentials['Login'] ?? '', ENT_QUOTES); ?>', '<?= htmlspecialchars($userCredentials['Password'] ?? '', ENT_QUOTES); ?>');">
-    <img src="ico/ed.png" alt="Edit" style="width: 20px; height: 20px;">
+    <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh;">
 </button>
 
 
@@ -390,7 +390,7 @@ function closeEditModal() {
                                 <img src="ico/ed.png" alt="Edit"  style="width: 3vh; height: 3vh; margin: 0px; margin-left:20px">
                     </button>
                     <button class="action-button DLT" onclick="deleteProject(<?php echo $project['ProjectID']; ?>)">
-                    <img src="ico/dl.png" alt="Delete" style="width: 4vh; height: 4vh; margin: 0px">
+                    <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px">
                     </button>
                                 </td>
                             </tr>

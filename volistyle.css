@@ -322,3 +322,23 @@ h1 {
 .appTable tbody tr:nth-child(even){
     background: #f3f3f3;
 }
+
+.status-rejected {
+    background-color: red;
+    color: black;
+}
+
+.status-approved {
+    background-color: #77B254;
+    color: white;
+}
+
+.status-in-progress {
+    background-color: yellow;
+    color: black;
+}
+
+.status-default {
+    background-color: gray;
+    color: black;
+}

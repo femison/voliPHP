@@ -8,6 +8,7 @@
     <script src="admin/script.js"></script>
     
 </head>
+
 <body>
     <header class="header">
         <?php
@@ -53,13 +54,7 @@
             <p>Добро пожаловать, <?php echo $name . ' ' . $surname; ?>!</p>
             
         </div>
-        <!-- <nav class="tabs">
-            <ul>
-                <li><a href="#projects" class="tab-link">Проекты</a></li>
-                <li><a href="#applications" class="tab-link">Мои заявки</a></li>
-                <li><a href="#volunteer-book" class="tab-link">Волонтерская книжка</a></li>
-            </ul>
-        </nav> -->
+       
 
         <nav class="tab-link">
             <button class="tablinks" onclick="openTab(event, 'projects')" id="projectsTabButton">Проекты</button>
@@ -207,71 +202,129 @@
 </div>
 </main>
 
-<!-- Секция Мои заявки -->
-<section id="applications" class="tabcontent">
-            <h1>Мои заявки</h1>
-            <table class="appTable">
-                <thead>
-                    <tr>
-                        <th>ID Заявки</th>
-                        <th>Проект</th>
-                        <th>Задача</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Проверяем, если сессия с данным пользователем активна
-                    if (isset($userID)) {
-                        // Запрос для получения заявок пользователя
-                        $applications_sql = "
-                            SELECT 
-                                r.RequestID, 
-                                p.ProjectName, 
-                                t.Description AS TaskDescription
-                            FROM users_pending_approval r
-                            JOIN projects p ON r.ProjectID = p.ProjectID
-                            JOIN tasks t ON r.TaskID = t.TaskID
-                            WHERE r.UserID = " . intval($userID);
+<section id="applications" class="tabcontent"> 
+    <h1>Мои заявки</h1>
+    <table class="appTable">
+        <thead>
+            <tr>
+                <th>ID Заявки</th>
+                <th>Проект</th>
+                <th>Задача</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Проверяем, если сессия с данным пользователем активна
+            if (isset($userID)) {
+                // Запрос для получения заявок пользователя с добавлением поля статус
+                $applications_sql = "
+                    SELECT 
+                        r.RequestID, 
+                        p.ProjectName, 
+                        t.Description AS TaskDescription,
+                        r.status AS RequestStatus
+                    FROM users_pending_approval r
+                    JOIN projects p ON r.ProjectID = p.ProjectID
+                    JOIN tasks t ON r.TaskID = t.TaskID
+                    WHERE r.UserID = " . intval($userID);
+                
+                $applications_result = mysqli_query($connect, $applications_sql);
+
+                if (mysqli_num_rows($applications_result) > 0) {
+                    // Выводим каждую заявку пользователя
+                    while ($application = mysqli_fetch_assoc($applications_result)) {
+                        // Определяем CSS-класс для статуса
                         
-                        $applications_result = mysqli_query($connect, $applications_sql);
-
-                        if (mysqli_num_rows($applications_result) > 0) {
-                            // Выводим каждую заявку пользователя
-                            while ($application = mysqli_fetch_assoc($applications_result)) {
-                                echo "<tr>";
-                                echo "<td>" . htmlspecialchars($application['RequestID']) . "</td>";
-                                echo "<td>" . htmlspecialchars($application['ProjectName']) . "</td>";
-                                echo "<td>" . htmlspecialchars($application['TaskDescription']) . "</td>";
-                                echo "<td>
-                                        <form method='post' action='volunteer\cancelRequest.php'>
-                                            <input type='hidden' name='request_id' value='" . intval($application['RequestID']) . "'>
-                                            <button type='submit' class='CancelReqBut'>Отменить заявку</button>
-                                        </form>
-                                      </td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='4'>У вас нет заявок.</td></tr>";
+                        
+                        echo "<td>" . htmlspecialchars($application['RequestID']) . "</td>";
+                        echo "<td>" . htmlspecialchars($application['ProjectName']) . "</td>";
+                        echo "<td>" . htmlspecialchars($application['TaskDescription']) . "</td>";
+                        echo "<td>" . htmlspecialchars($application['RequestStatus']) . "</td>";
+                        echo "<td>";
+                        // Показываем кнопку "Отменить заявку" только если статус не "Одобрена"
+                        if ($application['RequestStatus'] !== 'Одобрена') {
+                            echo "
+                                <form method='post' action='volunteer/cancelRequest.php'>
+                                    <input type='hidden' name='request_id' value='" . intval($application['RequestID']) . "'>
+                                    <button type='submit' class='CancelReqBut'>Отменить заявку</button>
+                                </form>
+                            ";
                         }
-                    } else {
-                        echo "<tr><td colspan='4'>Ошибка при загрузке заявок.</td></tr>";
+                        echo "</td>";
+                        echo "</tr>";
                     }
-                    ?>
-                </tbody>
-            </table>
-        </section>
-
-
-
-<!-- Секция Волонтерская книжка -->
-<section id="volunteer-book" class="tabcontent">
-    <main>
-    <h1>Волонтерская книжка</h1>
-    <p>Контент о волонтерской книжке...</p>
+                } else {
+                    echo "<tr><td colspan='5'>У вас нет заявок.</td></tr>";
+                }
+            } else {
+                echo "<tr><td colspan='5'>Ошибка при загрузке заявок.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
 </section>
-    </div>
-    </main>
+
+
+
+
+<section id="volunteer-book" class="tabcontent"> 
+    <h1>Мои задачи</h1>
+    <table class="appTable">
+        <thead>
+            <tr>
+                <th>ID Задачи</th>
+                <th>Проект</th>
+                <th>Описание задачи</th>
+                <th>Статус задачи</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Проверяем, если сессия с данным пользователем активна
+            if (isset($userID)) {
+                // Запрос для получения задач пользователя с добавлением полей проекта и описания задачи
+                $tasks_sql = "
+                    SELECT 
+                        ut.UserID, 
+                        t.TaskID, 
+                        t.Description AS TaskDescription, 
+                        t.Status AS TaskStatus, 
+                        p.ProjectName
+                    FROM voli.user_tasks ut
+                    JOIN voli.tasks t ON ut.TaskID = t.TaskID
+                    JOIN voli.projects p ON t.ProjectID = p.ProjectID
+                    WHERE ut.UserID = " . intval($userID);
+                
+                $tasks_result = mysqli_query($connect, $tasks_sql);
+
+                if (mysqli_num_rows($tasks_result) > 0) {
+                    // Выводим каждую задачу пользователя
+                    while ($task = mysqli_fetch_assoc($tasks_result)) {
+                        // Определяем CSS-класс для статуса задачи
+                       
+                        echo "<td>" . htmlspecialchars($task['TaskID']) . "</td>";
+                        echo "<td>" . htmlspecialchars($task['ProjectName']) . "</td>";
+                        echo "<td>" . htmlspecialchars($task['TaskDescription']) . "</td>";
+                        echo "<td>" . htmlspecialchars($task['TaskStatus']) . "</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='4'>У вас нет задач.</td></tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>Ошибка при загрузке задач.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</section>
+
+
+
+</div>
+</main>
 
 </body>
 </html>
