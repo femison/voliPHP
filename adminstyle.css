@@ -46,6 +46,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px; /* Расстояние между формой и таблицей */
+    
 }
 
 .table-panel th,
@@ -126,7 +127,7 @@ input[type="text"], input[type="date"], input[type="email"], select, textarea {
     box-sizing: border-box;
 }
 
-button.addbt, button.savech {
+button.addbt, button.savech  {
     width: -5%;
     background-color: #4CAF50;
     color: white;
@@ -189,6 +190,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    text-align: center;
+    margin-left: 10px;
 }
 
 th, td {
@@ -348,6 +351,37 @@ th {
     opacity: 0.8; /* Прозрачность при наведении */
 }
 
+.delbt{
+    width: -5%;
+    background-color: #E52020;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-/* ---- */
 
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a.active {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}

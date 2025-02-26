@@ -29,19 +29,33 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 function openTab(event, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    var tablinks = document.getElementsByClassName("tablinks");
+
+    // Скрываем все вкладки
+    for (var i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
+
+    // Убираем класс 'active' у всех кнопок
+    for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
     }
-    document.getElementById(tabName).style.display = "block";
-    event.currentTarget.className += " active";
-    localStorage.setItem('activeTabId', event.currentTarget.id); // Сохраняем активную вкладку
+
+    var activeTab = document.getElementById(tabName);
+    if (activeTab) {
+        activeTab.style.display = "block"; // Показываем нужную вкладку
+    } else {
+        console.error(`Вкладка с именем "${tabName}" не найдена.`);
+        return;
+    }
+
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add("active"); // Делаем кнопку активной
+        localStorage.setItem('activeTabId', event.currentTarget.id); // Сохраняем активную вкладку
+    }
 }
+
 
 function editProject(button, projectId, projectName, startDate, endDate, status) {
     // Получаем элементы формы для редактирования

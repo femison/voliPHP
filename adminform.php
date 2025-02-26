@@ -344,6 +344,21 @@ function closeEditModal() {
 
 </script>
 
+<?php
+$records_per_page = 10;
+$total_records = count($projects); // Количество всех проектов
+$total_pages = ceil($total_records / $records_per_page); // Количество страниц
+
+// Получаем текущую страницу из запроса (по умолчанию 1)
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$current_page = max(1, min($current_page, $total_pages)); // Убедиться, что страница корректна
+
+// Вычисляем с какого проекта начинать на текущей странице
+$start_from = ($current_page - 1) * $records_per_page;
+
+// Получаем нужные проекты для текущей страницы
+$projects_on_page = array_slice($projects, $start_from, $records_per_page);
+?>
 
 
     <!-- Projects tab -->
@@ -369,46 +384,88 @@ function closeEditModal() {
         </div>
         <!-- Projects directory -->
         <div class="directory" id="projectsTable">
-            <h2>Справочник проектов</h2>
-            <table>
-                <thead>
+    <h2>Справочник проектов</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Проекта</th>
+                <th>Название Проекта</th>
+                <th>Дата Начала</th>
+                <th>Дата Окончания</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($projects_on_page)): ?>
+                <?php foreach ($projects_on_page as $project): ?>
                     <tr>
-                        <th>ID Проекта</th>
-                        <th>Название Проекта</th>
-                        <th>Дата Начала</th>
-                        <th>Дата Окончания</th>
-                        <th>Статус</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($projects)): ?>
-                        <?php foreach ($projects as $project): ?>
-                            <tr>
-                                <td><?php echo $project['ProjectID']; ?></td>
-                                <td><?php echo $project['ProjectName']; ?></td>
-                                <td><?php echo formatDate($project['StartDate']); ?></td>
-                                <td><?php echo formatDate($project['EndDate']); ?></td>
-                                <td><?php echo $project['Status']; ?></td>
-                                <td>
-                                <button class="action-button" onclick="editProject(this, <?php echo $project['ProjectID']; ?>, '<?php echo htmlspecialchars($project['ProjectName'], ENT_QUOTES); ?>', '<?php echo $project['StartDate']; ?>', '<?php echo $project['EndDate']; ?>', '<?php echo $project['Status']; ?>')">
+                        <td><?php echo $project['ProjectID']; ?></td>
+                        <td><?php echo $project['ProjectName']; ?></td>
+                        <td><?php echo formatDate($project['StartDate']); ?></td>
+                        <td><?php echo formatDate($project['EndDate']); ?></td>
+                        <td><?php echo $project['Status']; ?></td>
+                        <td>
+                            <button class="action-button" onclick="editProject(this, <?php echo $project['ProjectID']; ?>, '<?php echo htmlspecialchars($project['ProjectName'], ENT_QUOTES); ?>', '<?php echo $project['StartDate']; ?>', '<?php echo $project['EndDate']; ?>', '<?php echo $project['Status']; ?>')">
                                 <img src="ico/ed.png" alt="Edit"  style="width: 3vh; height: 3vh; margin: 0px; margin-left:20px">
-                    </button>
-                    <button class="action-button DLT" onclick="deleteProject(<?php echo $project['ProjectID']; ?>)">
-                    <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px">
-                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="6">Нет данных о проектах.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody> 
-            </table>
-        </div>
+                            </button>
+                            <button class="action-button DLT" onclick="deleteProject(<?php echo $project['ProjectID']; ?>)">
+                                <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px">
+                            </button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="6">Нет данных о проектах.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+
+    <!-- Пагинация -->
+    <div class="pagination">
+        <?php if ($current_page > 1): ?>
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page=<?php echo $current_page - 1; ?>">&lt; Предыдущая</a>
+        <?php endif; ?>
+
+        <?php
+        // Отображаем первые 5 страниц и последние 5 страниц
+        $page_range = 2; // Количество страниц до и после текущей, которое будет показываться
+        $start_page = max(1, $current_page - $page_range);
+        $end_page = min($total_pages, $current_page + $page_range);
+
+        // Для отображения первых страниц
+        if ($start_page > 1) {
+            echo '<a href="?page=1">1</a>';
+            if ($start_page > 2) {
+                echo '<span>...</span>';
+            }
+        }
+
+        // Отображаем страницы в пределах диапазона
+        for ($page = $start_page; $page <= $end_page; $page++) {
+            echo '<a href="?page=' . $page . '" class="' . ($page == $current_page ? 'active' : '') . '">' . $page . '</a>';
+        }
+
+        // Для отображения последних страниц
+        if ($end_page < $total_pages) {
+            if ($end_page < $total_pages - 1) {
+                echo '<span>...</span>';
+            }
+            echo '<a href="?page=' . $total_pages . '">' . $total_pages . '</a>';
+        }
+        ?>
+
+        <?php if ($current_page < $total_pages): ?>
+            <a href="?page=<?php echo $current_page + 1; ?>">Следующая &gt;</a>
+            <a href="?page=<?php echo $total_pages; ?>">Последняя &raquo;</a>
+        <?php endif; ?>
     </div>
+</div>
+</div>
+
 
 
     
@@ -444,8 +501,8 @@ function processRequest(requestID, action) {
                         <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
                         <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
                         <td>
-                            <button class="action-button" onclick="processRequest(<?php echo $request['RequestID']; ?>, 'approve')">Одобрить</button>
-                            <button class="action-button DLT" onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">Отклонить</button>
+                            <button class="addbt"  processRequest(<?php echo $request['RequestID']; ?>, 'approve')">Одобрить</button>
+                            <button class="delbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">Отклонить</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -551,52 +608,108 @@ function processRequest(requestID, action) {
         </div>
    
         
+        <?php
+$records_per_page = 10; // Количество задач на одной странице
+$total_records = count($tasks); // Количество всех задач
+$total_pages = ceil($total_records / $records_per_page); // Количество страниц
+
+// Получаем текущую страницу из запроса (по умолчанию 1)
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$current_page = max(1, min($current_page, $total_pages)); // Убедиться, что страница корректна
+
+// Вычисляем с какого элемента начинать на текущей странице
+$start_from = ($current_page - 1) * $records_per_page;
+
+// Получаем нужные задачи для текущей страницы
+$tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
+?>
 
 
-        <!-- Tasks directory -->
-        <div class="directory" id="tasksTable">
-            <h2>Справочник задач</h2>
-            <table>
-                <thead>
+      <!-- Tasks directory -->
+<div class="directory" id="tasksTable">
+    <h2>Справочник задач</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Задачи</th>
+                <th>Описание</th>
+                <th>Название Проекта</th>
+                <th>Место</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($tasks_on_page)): ?>
+                <?php foreach ($tasks_on_page as $task): ?>
                     <tr>
-                        <th>ID Задачи</th>
-                        <th>Описание</th>
-                        <th>Название Проекта</th>
-                        <th>Место</th>
-                        <th>Дата</th>
-                        <th>Статус</th>
-                        <th>Действия</th>
+                        <td><?php echo $task['TaskID']; ?></td>
+                        <td><?php echo $task['Description']; ?></td>
+                        <td><?php echo $task['ProjectName']; ?></td>
+                        <td><?php echo $task['Location']; ?></td>
+                        <td><?php echo formatDate($task['Date']); ?></td>
+                        <td><?php echo $task['Status']; ?></td>
+                        <td>
+                            <button class="action-button" onclick="editTask(this, <?php echo $task['TaskID']; ?>, '<?php echo htmlspecialchars($task['Description'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['ProjectName'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['Location'], ENT_QUOTES); ?>', '<?php echo $task['Date']; ?>', '<?php echo htmlspecialchars($task['Status'], ENT_QUOTES); ?>');">
+                                <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; margin: 0px; margin-left:0px">
+                            </button>
+                            <button class="action-button DLT" onclick="deleteTask(<?php echo $task['TaskID']; ?>)">
+                                <img src="ico/dl.png" alt="Delete" style="width: 4vh; height: 4vh; margin: 0px">
+                            </button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($tasks)): ?>
-                        <?php foreach ($tasks as $task): ?>
-                            <tr>
-                                <td><?php echo $task['TaskID']; ?></td>
-                                <td><?php echo $task['Description']; ?></td>
-                                <td><?php echo $task['ProjectName']; ?></td>
-                                <td><?php echo $task['Location']; ?></td>
-                                <td><?php echo formatDate($task['Date']); ?></td>
-                                <td><?php echo $task['Status']; ?></td>
-                                <td>
-                                <button class="action-button" onclick="editTask(this, <?php echo $task['TaskID']; ?>, '<?php echo htmlspecialchars($task['Description'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['ProjectName'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['Location'], ENT_QUOTES); ?>', '<?php echo $task['Date']; ?>', '<?php echo htmlspecialchars($task['Status'], ENT_QUOTES); ?>');">
-    <img src="ico/ed.png" alt="Edit"  style="width: 3vh; height: 3vh; margin: 0px; margin-left:0px">
-</button>
-                                    <button class="action-button DLT" onclick="deleteTask(<?php echo $task['TaskID']; ?>)">
-                                            <img src="ico/dl.png" alt="Delete" style="width: 4vh; height: 4vh; margin: 0px">
-                                    </button>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7">Нет данных о задачах.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="7">Нет данных о задачах.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <!-- Пагинация -->
+    <div class="pagination">
+        <?php if ($current_page > 1): ?>
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page=<?php echo $current_page - 1; ?>">&lt; Предыдущая</a>
+        <?php endif; ?>
+
+        <?php
+        // Отображаем первые 5 страниц и последние 5 страниц
+        $page_range = 2; // Количество страниц до и после текущей, которое будет показываться
+        $start_page = max(1, $current_page - $page_range);
+        $end_page = min($total_pages, $current_page + $page_range);
+
+        // Для отображения первых страниц
+        if ($start_page > 1) {
+            echo '<a href="?page=1">1</a>';
+            if ($start_page > 2) {
+                echo '<span>...</span>';
+            }
+        }
+
+        // Отображаем страницы в пределах диапазона
+        for ($page = $start_page; $page <= $end_page; $page++) {
+            echo '<a href="?page=' . $page . '" class="' . ($page == $current_page ? 'active' : '') . '">' . $page . '</a>';
+        }
+
+        // Для отображения последних страниц
+        if ($end_page < $total_pages) {
+            if ($end_page < $total_pages - 1) {
+                echo '<span>...</span>';
+            }
+            echo '<a href="?page=' . $total_pages . '">' . $total_pages . '</a>';
+        }
+        ?>
+
+        <?php if ($current_page < $total_pages): ?>
+            <a href="?page=<?php echo $current_page + 1; ?>">Следующая &gt;</a>
+            <a href="?page=<?php echo $total_pages; ?>">Последняя &raquo;</a>
+        <?php endif; ?>
+    </div>
+</div>
+
 
         <!-- Edit task form -->
         <div id="editTaskForm" class="edit-form" style="display: none;">
@@ -693,7 +806,7 @@ function processRequest(requestID, action) {
             <table>
                 <thead>
                     <tr>
-                        <th>  </th>
+                        
                         <th>Имя</th>
                         <th>Фамилия</th>
                         <th>Навыки</th>
@@ -705,11 +818,11 @@ function processRequest(requestID, action) {
                 <tbody>
                     <?php foreach ($groupedData as $projectName => $users): ?>
                         <tr>
-                            <td colspan="7"><strong><?= htmlspecialchars($projectName) ?></strong></td>
+                        <td colspan="7" style="color: black;text-align: center; font-weight: bold; background: #FFF2F2;   "><?= htmlspecialchars($projectName) ?></td>
                         </tr>
                         <?php foreach ($users as $user): ?>
-                            <tr>
-                                <td></td>
+                            <tr>    
+                                
                                 <td><?= htmlspecialchars($user['Name']) ?></td>
                                 <td><?= htmlspecialchars($user['Surname']) ?></td>
                                 <td><?= htmlspecialchars($user['UserSkills']) ?></td>
@@ -723,13 +836,25 @@ function processRequest(requestID, action) {
                                     </ul>
                                 </td>
                             </tr>
+                            
                         <?php endforeach; ?>
+                        <tr>
+                                <td style="border-color: white; background-color: white;"></td>
+                                <td style="border-color: white; background-color: white;"></td>
+                                <td style="border-color: white; background-color: white;"></td>
+                                <td style="border-color: white; background-color: white;"></td>
+                                <td style="border-color: white; background-color: white;"></td>
+                                <td style="border-color: white; background-color: white;"></td>
+                                
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+
 
 <script>
 
@@ -757,7 +882,7 @@ function generatePDF() {
                 border-collapse: collapse;
                 margin-top: 20px;
                 border: 1px solid #ddd;
-                text-align: left;
+                text-align: center;
                 padding: 8px;
             }
             th {
@@ -896,11 +1021,29 @@ function performAction(action, userTaskID) {
     <button class="addbt" type="submit" id="addButton">Добавить</button>
     </form>
 </div>
- <div class="directory" id="usersTable">
+
+<?php
+$records_per_page = 10; // Количество пользователей на одной странице
+$total_records = count($usersExtended); // Количество всех пользователей
+$total_pages = ceil($total_records / $records_per_page); // Количество страниц
+
+// Получаем текущую страницу из запроса (по умолчанию 1)
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$current_page = max(1, min($current_page, $total_pages)); // Убедиться, что страница корректна
+
+// Вычисляем с какого элемента начинать на текущей странице
+$start_from = ($current_page - 1) * $records_per_page;
+
+// Получаем нужных пользователей для текущей страницы
+$users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
+?>
+
+ 
+<div class="directory" id="usersTable">
     <h2>Справочник пользователей</h2>
     <table>
         <thead>
-        <tr>
+            <tr>
                 <th>UserID</th>
                 <th>Имя и фамилия</th>
                 <th>Эл. Почта</th>
@@ -914,45 +1057,80 @@ function performAction(action, userTaskID) {
             </tr>
         </thead>
         <tbody>
-    <?php foreach ($usersExtended as $user): ?>
-    <tr>
-    <tr data-user-id="<?= htmlspecialchars($user['UserID']); ?>"
-    data-name="<?= htmlspecialchars($user['Name']); ?>"
-    data-surname="<?= htmlspecialchars($user['Surname']); ?>"
-    data-email="<?= htmlspecialchars($user['Email']); ?>"
-    data-phone="<?= htmlspecialchars($user['Phone']); ?>"
-    data-dob="<?= htmlspecialchars($user['DateOfBirth']); ?>"  
-    data-address="<?= htmlspecialchars($user['Address']); ?>"
-    data-gender="<?= htmlspecialchars($user['Gender']); ?>"
-    data-role="<?= htmlspecialchars($user['Role']); ?>">
+            <?php foreach ($users_on_page as $user): ?>
+                <tr data-user-id="<?= htmlspecialchars($user['UserID']); ?>"
+                    data-name="<?= htmlspecialchars($user['Name']); ?>"
+                    data-surname="<?= htmlspecialchars($user['Surname']); ?>"
+                    data-email="<?= htmlspecialchars($user['Email']); ?>"
+                    data-phone="<?= htmlspecialchars($user['Phone']); ?>"
+                    data-dob="<?= htmlspecialchars($user['DateOfBirth']); ?>"  
+                    data-address="<?= htmlspecialchars($user['Address']); ?>"
+                    data-gender="<?= htmlspecialchars($user['Gender']); ?>"
+                    data-role="<?= htmlspecialchars($user['Role']); ?>">
+                    <td><?= htmlspecialchars($user['UserID']); ?></td>
+                    <td><?= htmlspecialchars($user['Name']) . ' ' . htmlspecialchars($user['Surname']); ?></td>
+                    <td><?= htmlspecialchars($user['Email']); ?></td>
+                    <td><?= htmlspecialchars($user['Phone']); ?></td>
+                    <td><?= htmlspecialchars(formatDate($user['DateOfBirth'])); ?></td>
+                    <td><?= htmlspecialchars($user['Gender']); ?></td>
+                    <td><?= htmlspecialchars($user['Address']); ?></td>
+                    <td><?= htmlspecialchars($user['UserSkills']); ?></td>
+                    <td><?= htmlspecialchars($user['Role']); ?></td>
+                    <td>
+                        <button class="action-button" onclick="editUser(this, '<?= htmlspecialchars($user['UserID']) ?>');">
+                            <img src="ico/ed.png" alt="Edit" style="width: 4vh; height: 4vh;">
+                        </button>
+                        <button class="action-button DLT" onclick="deleteUser('<?= htmlspecialchars($user['UserID']) ?>')">
+                            <img src="ico/dl.png" alt="Delete" style="width: 4vh; height: 4vh;">
+                        </button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
+    <!-- Пагинация -->
+    <div class="pagination">
+        <?php if ($current_page > 1): ?>
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page=<?php echo $current_page - 1; ?>">&lt; Предыдущая</a>
+        <?php endif; ?>
 
-        <td><?= htmlspecialchars($user['UserID']); ?></td>
-        <td><?= htmlspecialchars($user['Name']) . ' ' . htmlspecialchars($user['Surname']); ?></td>
-        <td><?= htmlspecialchars($user['Email']); ?></td>
-        <td><?= htmlspecialchars($user['Phone']); ?></td>
-        <td><?= htmlspecialchars(formatDate($user['DateOfBirth'])); ?></td>
-        <td><?= htmlspecialchars($user['Gender']); ?></td>
-        <td><?= htmlspecialchars($user['Address']); ?></td>
-        <td><?= htmlspecialchars($user['UserSkills']); ?></td>
-        <td><?= htmlspecialchars($user['Role']); ?></td>
-        
-        <td>
-            
-        <button class="action-button" onclick="editUser(this, '<?= htmlspecialchars($user['UserID']) ?>');">
-    <img src="ico/ed.png" alt="Edit" style="width: 4vh; height: 4vh;">
-</button>
+        <?php
+        // Отображаем первые 5 страниц и последние 5 страниц
+        $page_range = 2; // Количество страниц до и после текущей, которое будет показываться
+        $start_page = max(1, $current_page - $page_range);
+        $end_page = min($total_pages, $current_page + $page_range);
 
-            <button class="action-button DLT" onclick="deleteUser('<?= htmlspecialchars($user['UserID']) ?>')">
-            <img src="ico/dl.png" alt="Delete" style="width: 4vh; height: 4vh;">
-            </button>
+        // Для отображения первых страниц
+        if ($start_page > 1) {
+            echo '<a href="?page=1">1</a>';
+            if ($start_page > 2) {
+                echo '<span>...</span>';
+            }
+        }
 
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</tbody>
-        </table>
+        // Отображаем страницы в пределах диапазона
+        for ($page = $start_page; $page <= $end_page; $page++) {
+            echo '<a href="?page=' . $page . '" class="' . ($page == $current_page ? 'active' : '') . '">' . $page . '</a>';
+        }
+
+        // Для отображения последних страниц
+        if ($end_page < $total_pages) {
+            if ($end_page < $total_pages - 1) {
+                echo '<span>...</span>';
+            }
+            echo '<a href="?page=' . $total_pages . '">' . $total_pages . '</a>';
+        }
+        ?>
+
+        <?php if ($current_page < $total_pages): ?>
+            <a href="?page=<?php echo $current_page + 1; ?>">Следующая &gt;</a>
+            <a href="?page=<?php echo $total_pages; ?>">Последняя &raquo;</a>
+        <?php endif; ?>
     </div>
+</div>
+
 
 
 <form id="editUserForm" style="display:none;">

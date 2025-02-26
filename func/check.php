@@ -55,20 +55,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Неизвестная роль пользователя."; // Если роль неизвестна
             }
         } else {
-            // Неверный пароль
-            $error_message = "Неправильное имя пользователя или пароль.";
+            // Неверный пароль, установка сообщения в сессии
+            $_SESSION['error_message'] = "Неправильное имя пользователя или пароль.";
+            header("Location: ../index.php"); // Перенаправление на страницу входа
+            exit;
         }
     } else {
         // Неверное имя пользователя
-        $error_message = "Неправильное имя пользователя или пароль.";
+        $_SESSION['error_message'] = "Неправильное имя пользователя или пароль.";
+        header("Location: ../index.php"); // Перенаправление на страницу входа
+        exit;
     }
 }
 
 // Закрытие соединения с базой данных
 mysqli_close($connect);
 ?>
-
-<!-- Если была ошибка -->
-<?php if (!empty($error_message)): ?>
-    <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
-<?php endif; ?>
