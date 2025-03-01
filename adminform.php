@@ -501,7 +501,7 @@ function processRequest(requestID, action) {
                         <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
                         <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
                         <td>
-                            <button class="addbt"  processRequest(<?php echo $request['RequestID']; ?>, 'approve')">Одобрить</button>
+                            <button class="addbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'approve')">Одобрить</button>
                             <button class="delbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">Отклонить</button>
                         </td>
                     </tr>
@@ -1014,7 +1014,7 @@ function performAction(action, userTaskID) {
     <label for="userAddress">Адрес:</label>
     <input type="text" id="userAddress" name="userAddress">
 
-    <label for="userSkills">Умения:</label>
+    <label for="userSkills">Пожелания в работе:</label>
     <textarea id="userSkills" name="userSkills" rows="4" cols="50" style="resize: none;" maxlength="255"></textarea>
 
                                 
@@ -1051,7 +1051,7 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
                 <th>Дата рождения</th>
                 <th>Пол</th>
                 <th>Адрес</th>
-                <th>Умения</th>
+                <th>Пожелания в работе</th>
                 <th>Роль</th>
                 <th>Действия</th>
             </tr>

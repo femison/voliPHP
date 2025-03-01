@@ -9,7 +9,8 @@ unset($_SESSION['error_message']); // Удаляем сообщение посл
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="styleindex.css">
     <script>
         function validateForm() {
             var username = document.getElementById('username').value.trim();
@@ -47,20 +48,23 @@ unset($_SESSION['error_message']); // Удаляем сообщение посл
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Авторизация</h2>
-        <?php if(!empty($error_message)): ?>
-            <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
-        <?php endif; ?>
-        <!-- Контейнер для клиентских ошибок -->
-        <div id="clientError" class="client-error"></div>
-        <form id="loginForm" method="post" action="func/check.php" onsubmit="return validateForm();">
-            <label for="username">Имя пользователя:</label><br>
-            <input type="text" id="username" name="username"><br>
-            <label for="password">Пароль:</label><br>
-            <input type="password" id="password" name="password"><br><br>
-            <input class='joinBut' type="submit" value="Войти">
-        </form>
-    </div>
+    <section class = form>
+        <div class="container">
+            <h2>Авторизация</h2>
+            <?php if(!empty($error_message)): ?>
+                <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
+            <?php endif; ?>
+            <!-- Контейнер для клиентских ошибок -->
+            <div id="clientError" class="client-error"></div>
+            <form id="loginForm" method="post" action="func/check.php" onsubmit="return validateForm();">
+                <label for="username">Имя пользователя:</label><br>
+                <input type="text" id="username" name="username"><br>
+                <label for="password">Пароль:</label><br>
+                <input type="password" id="password" name="password"><br><br>
+                <input class='joinBut' type="submit" value="Войти">
+            </form>
+            <p>Нет аккаунта, <a href="registration/registerform.php">зарегистрируйся!</a></p>
+        </div>
+    </section>
 </body>
 </html>
