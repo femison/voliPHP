@@ -92,7 +92,7 @@
                 <li><strong>Адрес:</strong> ул. Примерная, дом 1, Москва, Россия</li>
                 <li><strong>Телефон:</strong> +7 (123) 456-78-90</li>
                 <li><strong>Email:</strong> info@volunteers.org</li>
-                <li><strong>Социальные сети:</strong> <a href="#">Instagram</a>, <a href="#">Facebook</a>, <a href="#">VK</a>, <a href="#">Twitter</a></li>
+                <li><strong>Социальные сети:</strong>  <a href="#">VK</a>, <a href="#">Telegram</a></li>
             </ul>
             <p>Если у вас есть идеи, вопросы или вы хотите стать партнером, не стесняйтесь писать нам. Мы всегда открыты для общения и готовы обсудить любые предложения. Мы уверены, что с вашей помощью можно создать проекты, которые изменят жизнь к лучшему.</p>
             <p>Наши специалисты и волонтеры готовы поделиться опытом, предоставить информацию и ответить на все вопросы, связанные с волонтерской деятельностью, а также рассказать о наших текущих и будущих инициативах.</p>
@@ -137,7 +137,7 @@
 
         <!-- Раздел проектов -->
         <section id="projects" class="tabcontent">
-            <h1>Список проектов и задач</h1>
+            <h1>Список проектов</h1>
 
             <div class="projects-section">
                 <h2>Активные проекты</h2>
@@ -148,33 +148,12 @@
 
                     if (mysqli_num_rows($projects_result) > 0) {
                         while ($project = mysqli_fetch_assoc($projects_result)) {
-                            echo "<div class='project active'>";
+                            echo "<a href='project_details.php?project_id=" . intval($project['ProjectID']) . "' class='project active'>";
                             echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
                             echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
                             echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
                             echo "<p>Статус: " . htmlspecialchars($project['Status']) . "</p>";
-
-                            $tasks_sql = "SELECT * FROM tasks WHERE ProjectID = " . intval($project['ProjectID']);
-                            $tasks_result = mysqli_query($connect, $tasks_sql);
-
-                            if (mysqli_num_rows($tasks_result) > 0) {
-                                echo "<h4>Задачи:</h4>";
-                                while ($task = mysqli_fetch_assoc($tasks_result)) {
-                                    echo "<div class='task'>";
-                                    echo "<p>Описание: " . htmlspecialchars($task['Description']) . "</p>";
-                                    echo "<p>Статус: " . htmlspecialchars($task['Status']) . "</p>";
-                                    echo "<form method='post' action='submit_application.php'>";
-                                    echo "<input type='hidden' name='project_id' value='" . intval($project['ProjectID']) . "'>";
-                                    echo "<input type='hidden' name='task_id' value='" . intval($task['TaskID']) . "'>";
-                                    echo "<button type='submit'>Подать заявку</button>";
-                                    echo "</form>";
-                                    echo "</div>";
-                                }
-                            } else {
-                                echo "<p>Для данного проекта задачи пока не добавлены.</p>";
-                            }
-
-                            echo "</div>";
+                            echo "</a>";
                         }
                     } else {
                         echo "<p>Нет доступных активных проектов.</p>";
@@ -182,87 +161,52 @@
                     ?>
                 </div>
             </div>
-            <!-- Контейнер для завершённых проектов -->
-<div class="projects-section" >
-    <h2>Завершённые проекты</h2>
-    <div class="projects-container">
-        <?php
-        // Получаем все завершённые проекты
-        $completed_projects_sql = "SELECT * FROM projects WHERE Status = 'Завершен'";
-        $completed_projects_result = mysqli_query($connect, $completed_projects_sql);
 
-        if (mysqli_num_rows($completed_projects_result) > 0) {
-            while ($project = mysqli_fetch_assoc($completed_projects_result)) {
-                echo "<div class='project-completed'>";
-                echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
-                echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
-                echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
-                echo "<p>Статус: " . htmlspecialchars($project['Status']) . "</p>";
+            <div class="projects-section">
+                <h2>Завершённые проекты</h2>
+                <div class="projects-container">
+                    <?php
+                    $completed_projects_sql = "SELECT * FROM projects WHERE Status = 'Завершен'";
+                    $completed_projects_result = mysqli_query($connect, $completed_projects_sql);
 
-                $tasks_sql = "SELECT * FROM tasks WHERE ProjectID = " . intval($project['ProjectID']);
-                $tasks_result = mysqli_query($connect, $tasks_sql);
-
-                if (mysqli_num_rows($tasks_result) > 0) {
-                    echo "<h4>Задачи:</h4>";
-                    while ($task = mysqli_fetch_assoc($tasks_result)) {
-                        echo "<div class='task'>";
-                        echo "<p>Описание: " . htmlspecialchars($task['Description']) . "</p>";
-                        echo "<p>Статус: " . htmlspecialchars($task['Status']) . "</p>";
-                        echo "</div>";
+                    if (mysqli_num_rows($completed_projects_result) > 0) {
+                        while ($project = mysqli_fetch_assoc($completed_projects_result)) {
+                            echo "<a href='project_details.php?project_id=" . intval($project['ProjectID']) . "' class='project-completed'>";
+                            echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
+                            echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
+                            echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
+                            echo "<p>Статус: " . htmlspecialchars($project['Status']) . "</p>";
+                            echo "</a>";
+                        }
+                    } else {
+                        echo "<p>Нет завершённых проектов.</p>";
                     }
-                } else {
-                    echo "<p>Задачи завершены.</p>";
-                }
+                    ?>
+                </div>
+            </div>
 
-                echo "</div>";
-            }
-        } else {
-            echo "<p>Нет завершённых проектов.</p>";
-        }
-        ?>
-    </div>
-</div>
+            <div class="projects-section">
+                <h2>Отменённые проекты</h2>
+                <div class="projects-container">
+                    <?php
+                    $cancelled_projects_sql = "SELECT * FROM projects WHERE Status = 'Отменен'";
+                    $cancelled_projects_result = mysqli_query($connect, $cancelled_projects_sql);
 
-<!-- Контейнер для отменённых проектов -->
-<div class="projects-section">
-    <h2>Отменённые проекты</h2>
-    <div class="projects-container">
-        <?php
-        // Получаем все отменённые проекты
-        $cancelled_projects_sql = "SELECT * FROM projects WHERE Status = 'Отменен'";
-        $cancelled_projects_result = mysqli_query($connect, $cancelled_projects_sql);
-
-        if (mysqli_num_rows($cancelled_projects_result) > 0) {
-            while ($project = mysqli_fetch_assoc($cancelled_projects_result)) {
-                echo "<div class='project-cancelled'>";
-                echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
-                echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
-                echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
-                echo "<p>Статус: " . htmlspecialchars($project['Status']) . "</p>";
-
-                $tasks_sql = "SELECT * FROM tasks WHERE ProjectID = " . intval($project['ProjectID']);
-                $tasks_result = mysqli_query($connect, $tasks_sql);
-
-                if (mysqli_num_rows($tasks_result) > 0) {
-                    echo "<h4>Задачи:</h4>";
-                    while ($task = mysqli_fetch_assoc($tasks_result)) {
-                        echo "<div class='task'>";
-                        echo "<p>Описание: " . htmlspecialchars($task['Description']) . "</p>";
-                        echo "<p>Статус: " . htmlspecialchars($task['Status']) . "</p>";
-                        echo "</div>";
+                    if (mysqli_num_rows($cancelled_projects_result) > 0) {
+                        while ($project = mysqli_fetch_assoc($cancelled_projects_result)) {
+                            echo "<a href='project_details.php?project_id=" . intval($project['ProjectID']) . "' class='project-cancelled'>";
+                            echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
+                            echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
+                            echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
+                            echo "<p>Статус: " . htmlspecialchars($project['Status']) . "</p>";
+                            echo "</a>";
+                        }
+                    } else {
+                        echo "<p>Нет отменённых проектов.</p>";
                     }
-                } else {
-                    echo "<p>Задачи отменены.</p>";
-                }
-
-                echo "</div>";
-            }
-        } else {
-            echo "<p>Нет отменённых проектов.</p>";
-        }
-        ?>
-    </div>
-</div>
+                    ?>
+                </div>
+            </div>
         </section>
 
         <!-- Раздел заявок -->

@@ -201,7 +201,7 @@ mysqli_close($connect);
     display: inline-block;
     width: 150px;
     font-weight: bold;
-    z-index: -10;
+    
 }
 
 #profile input[type="text"],
@@ -211,7 +211,7 @@ mysqli_close($connect);
     width: 300px;
     padding: 8px;
     margin-bottom: 10px;
-    z-index: -10;
+    
 }
 
 #profile button {
@@ -228,26 +228,31 @@ mysqli_close($connect);
     background-color: #0056b3;
     z-index: -10;
 }
+#profile{
+    position: relative;
+    z-index: 1;
+}
 </style>
 <div id="profile"  class="tabcontent">
-    
-    <h2>Информация о профиле</h2>
-    <form id="profileForm" method="post" action="admin/update_profile.php">
-        <label for="name">Имя:</label>
-        <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($adminProfile['Name']); ?>" required><br><br>
+    <div style="z-index: 0;">
+        <h2>Информация о профиле</h2>
+        <form id="profileForm" method="post" action="admin/update_profile.php">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($adminProfile['Name']); ?>" required><br><br>
 
-        <label for="surname">Фамилия:</label>
-        <input type="text" id="surname" name="surname" value="<?php echo htmlspecialchars($adminProfile['Surname']); ?>" required><br><br>
+            <label for="surname">Фамилия:</label>
+            <input type="text" id="surname" name="surname" value="<?php echo htmlspecialchars($adminProfile['Surname']); ?>" required><br><br>
 
-        <label for="email">Электронная почта:</label>
-        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($adminProfile['Email']); ?>" required><br><br>
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($adminProfile['Email']); ?>" required><br><br>
 
-        <label for="phone">Телефон:</label>
-        <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($adminProfile['Phone']); ?>"><br><br>
+            <label for="phone">Телефон:</label>
+            <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($adminProfile['Phone']); ?>"><br><br>
 
 
-        <button type="submit">Сохранить изменения</button>
-    </form>
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    </div>
 </div>
 
 <div id="userlogTab" class="tabcontent">

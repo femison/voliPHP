@@ -45,9 +45,21 @@ unset($_SESSION['error_message']); // Удаляем сообщение посл
         .client-error {
             display: none; /* Скрываем контейнер по умолчанию */
         }
+        .bg-video {
+            /* Фиксируем видеоролик, чтобы он занимал всю площадь страницы
+            от верхнего левого угла */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Определяем, что все другие элементы на странице будут поверх видео */
+            z-index: -100;
+        }
     </style>
 </head>
 <body>
+   
+        
     <section class = form>
         <div class="container">
             <h2>Авторизация</h2>

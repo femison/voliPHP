@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($stmt->affected_rows > 0) {
             echo "Участие успешно добавлено.";
+            header("Location: ./adminform.php");
         } else {
             echo "Не удалось добавить участие.";
         }
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Ошибка подготовки запроса: " . $connect->error;
     }
 }
-header("Location: ../adminform.php");
+
 $connect->close();
 exit();
 
