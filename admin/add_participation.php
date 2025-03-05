@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($stmt->affected_rows > 0) {
             echo "Участие успешно добавлено.";
-            header("Location: ./adminform.php");
+            header("Location: ../adminform.php");
         } else {
             echo "Не удалось добавить участие.";
         }

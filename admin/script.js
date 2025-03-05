@@ -1,13 +1,25 @@
+// window.onload = function() {
+//     var activeTabId = localStorage.getItem("activeTabId");
+//     if (activeTabId) {
+//         var tabButton = document.getElementById(activeTabId);
+//         if (tabButton) {
+//             tabButton.click();
+//         }
+        
+//     } else {
+//         document.getElementById("projectsTabButton").click(); 
+//     }
+// };
+
+
 window.onload = function() {
     var activeTabId = localStorage.getItem("activeTabId");
-    if (activeTabId) {
-        var tabButton = document.getElementById(activeTabId);
-        if (tabButton) {
-            tabButton.click();
-        }
-        
+    if (activeTabId && document.getElementById(activeTabId)) {
+        document.getElementById(activeTabId).click();
     } else {
-        document.getElementById("projectsTabButton").click(); // Если нет сохраненной вкладки, открываем по умолчанию
+        
+        document.getElementById("projectsTabButton").click();
+        localStorage.setItem("activeTabId", "projectsTabButton"); 
     }
 };
 

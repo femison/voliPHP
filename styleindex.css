@@ -8,6 +8,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    position: relative; /* Позволяет размещать фон относительно body */
 }
 
 /* Контейнер формы */
@@ -19,6 +20,8 @@ body {
     max-width: 400px;
     padding: 30px;
     text-align: center;
+    position: relative; /* Форма будет поверх фона */
+    z-index: 1; /* Устанавливаем форму выше фона */
 }
 
 /* Заголовок формы */
@@ -81,4 +84,20 @@ input[type="submit"]:hover {
         font-size: 14px;
         padding: 10px;
     }
+}
+
+/* Фон */
+.bg {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(5px);
+    
+    background-image: url(ico/icons8-volunteer-100.png)  ;
+    background-size: cover;
+    width: 50%;
+    background-color: transparent;
 }

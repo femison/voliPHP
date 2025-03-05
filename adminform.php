@@ -9,6 +9,8 @@ include 'admin\get_task.php';
 include 'admin\deleteusertask.php';
 include 'admin\export.php';
 include 'admin\logout.php';
+include 'get_user_data.php';
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -171,8 +173,8 @@ mysqli_close($connect);
     <script src="admin/script.js"></script>
     
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
 
 
 
@@ -800,12 +802,117 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
                     </select>
                     <button class="addbt" type="submit">Добавить</button>
                 </form>
-                <label for="printPDF"style="font-size: 15px;">Печать таблицы (Пользователь - Проект)</label>
-                <button name = "printPDF" class='generate' onclick='generatePDF()'>На печать </button>                              
-
-            </div>
+                <label for="printPDF" style="font-size: 15px;">Печать таблицы (Пользователь - Проект)</label>
+                <button name="printPDF" class='generate' onclick='openModal()'>На печать</button>
         </div>
+    </div>
+
+<div id="printModal" class="modal">
+  <div class="modal-content">
+    <span class="close">×</span>
+    <div class="selection-section">
+        <label for="userSelect">Выберите пользователя:</label>
+        <select id="userSelect">
+            <!-- Сюда будут подставляться пользователи с сервера -->
+        </select>
         
+        <label for="projectsSelect">Выберите проекты:</label>
+        <select id="projectsSelect" multiple size="6">
+            <!-- Сюда будут подставляться проекты с сервера -->
+        </select>
+
+        <button id="generatePDFBtn" onclick="generatePDF()">Сгенерировать PDF</button>
+    </div>
+  </div>
+</div>
+
+
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0,0,0);
+  background-color: rgb(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+
+<script>
+
+    // Открытие модального окна
+function openModal() {
+    document.getElementById('printModal').style.display = 'block';
+    loadUsers();  // Загружаем пользователей при открытии модального окна
+}
+
+// Закрытие модального окна
+var modal = document.getElementById('printModal');
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+    modal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+async function loadUsers() {
+    const response = await fetch('get_users.php');  // Ваш PHP-скрипт для получения пользователей
+    const data = await response.json();  // Преобразуем ответ в JSON
+
+    const userSelect = document.getElementById('userSelect');
+    userSelect.innerHTML = '';  // Очищаем список перед добавлением новых пользователей
+
+    if (data && data.length > 0) {
+        data.forEach(user => {
+            const option = document.createElement('option');
+            option.value = user.UserID;  // ID пользователя
+            option.textContent = `${user.Name} ${user.Surname}`;  // Имя и фамилия пользователя
+            userSelect.appendChild(option);
+        });
+    } else {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'Нет доступных пользователей';
+        userSelect.appendChild(option);  // Добавляем сообщение, если пользователей нет
+    }
+}
+
+
+
+
+
+
+</script>
+
+
+
         <!-- Вывод таблицы с данными -->
         <div id = "napech" class="table-panel" style="margin-top: 20px;">
             <table>
@@ -869,72 +976,6 @@ const pdf = new window.jspdf.jsPDF({
     format: 'a4'
 });
 
-function generatePDF() {
-    let frame = document.getElementById('printFrame');
-    let frameDoc = frame.contentDocument || frame.contentWindow.document;
-
-    // Определение стилей для печати
-    const styles = `
-        <style>
-            body {
-                font-family: 'Arial', sans-serif;
-                background-color: white;
-                margin: 0;
-                padding: 0;
-            }
-            table, th, td {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-                border: 1px solid #ddd;
-                text-align: center;
-                padding: 8px;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-            .table-panel table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-            .table-panel th, .table-panel td {
-                border: 1px solid #ccc;
-                padding: 10px 15px;
-                text-align: left;
-            }
-            .table-panel th {
-                background-color: #f2f2f2;
-                color: #333;
-            }
-            .table-panel tbody tr:nth-child(even) {
-                background-color: #f9f9f9;
-            }
-            .table-panel ul {
-                padding-left: 20px;
-                margin: 0;
-            }
-            .table-panel li {
-                list-style-type: disc;
-            }
-        </style>
-    `;
-
-    // Получение HTML содержимого, которое нужно напечатать
-    const content = document.getElementById('napech').innerHTML;
-    
-    // Запись HTML и стилей в документ iframe
-    frameDoc.open();
-    frameDoc.write('<html><head><title>Печать таблицы</title>' + styles + '</head><body>');
-    frameDoc.write(content);
-    frameDoc.write('</body></html>');
-    frameDoc.close();
-
-    // Вызов окна печати после полной загрузки содержимого iframe
-    frame.onload = function() {
-        frame.contentWindow.print();
-    }
-}
 
 
 

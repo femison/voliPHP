@@ -13,6 +13,7 @@ unset($_SESSION['error_message']); // Удаляем сообщение посл
     <link rel="stylesheet" href="styleindex.css">
     <script>
         function validateForm() {
+            
             var username = document.getElementById('username').value.trim();
             var password = document.getElementById('password').value.trim();
             var errorMessage = '';
@@ -45,21 +46,12 @@ unset($_SESSION['error_message']); // Удаляем сообщение посл
         .client-error {
             display: none; /* Скрываем контейнер по умолчанию */
         }
-        .bg-video {
-            /* Фиксируем видеоролик, чтобы он занимал всю площадь страницы
-            от верхнего левого угла */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            /* Определяем, что все другие элементы на странице будут поверх видео */
-            z-index: -100;
-        }
+        
     </style>
 </head>
 <body>
-   
-        
+
+<div class="bg"></div>    
     <section class = form>
         <div class="container">
             <h2>Авторизация</h2>

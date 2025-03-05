@@ -108,7 +108,7 @@ body {
     padding: 20px;
     background-color: #F6F5F2;
     border-right: 1px solid #ddd;
-    z-index: 0;
+    z-index: 50;
 }
 
 .directory {
@@ -118,7 +118,7 @@ body {
     border: 1px solid #ddd;
     height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
     box-sizing: border-box;
-    z-index: 1000;
+    z-index: 500;
 }
 
 input[type="text"], input[type="date"], input[type="email"], select, textarea {
