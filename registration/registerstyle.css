@@ -1,106 +1,216 @@
-/* Общие стили для страницы */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* Стили для секции */
-section {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
 }
 
-/* Стиль контейнера формы */
-.register-input {
-    /* Родительская форма */
-    position: relative;
+.container {
     background-color: #fff;
-    padding: 30px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
 }
 
-/* Заголовок формы */
 h1 {
     text-align: center;
-    font-size: 24px;
     margin-bottom: 20px;
-    color: #333;
 }
 
-/* Стили для всех input полей */
+.grid-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+}
+
+.grid-form div {
+    display: flex;
+    flex-direction: column;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="tel"],
 input[type="password"],
-input[type="date"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
+input[type="date"],
+textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    width: 100%; /* Заставляем поля занимать всю доступную ширину */
+    box-sizing: border-box; /* Чтобы padding и border не увеличивали ширину */
 }
 
-/* Особый стиль для поля даты */
-input[type="date"] {
-    appearance: none; /* Убираем стандартный стиль браузера */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: #fff;
-    color: #333;
-}
 
-input[type="date"]:focus {
-    border-color: #4CAF50;
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+textarea:focus {
+    border-color: #3498db;
     outline: none;
 }
 
-/* Стили для checkbox и label */
-input[type="checkbox"] {
-    margin-right: 10px;
-}
+input[type="text"]:invalid,
+input[type="email"]:invalid,
+input[type="tel"]:invalid,
 
-label {
-    font-size: 14px;
-    color: #333;
-}
 
-/* Стили для кнопки */
-button {
+.full-width {
     width: 100%;
-    padding: 12px;
-    background-color: #4CAF50;
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.error-input {
+    border-color: #ffffff;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #3498db;
     color: #fff;
-    font-size: 16px;
     border: none;
     border-radius: 4px;
+    font-size: 14px;
     cursor: pointer;
-    margin-top: 10px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #2980b9;
 }
 
-/* Стили для формы при фокусе */
-input:focus {
-    outline: none;
-    border-color: #4CAF50;
+button[type="button"] {
+    background-color: #e74c3c;
 }
 
-/* Стили для текста ошибок или подсказок */
-small {
-    display: block;
+button[type="button"]:hover {
+    background-color: #c0392b;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+.address-preview {
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.address-preview:hover {
+    background-color: #e0e0e0;
+}
+
+.set_adres:hover{
+    background-color: #D6D2C4;
+}
+.set_adres{
+    
+    background-color: #968C83;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
+
+.modal[hidden] {
+    display: none !important;
+}
+
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 100%;
+    display: grid;
+    gap: 15px;
+}
+
+.modal-content h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-content input[type="text"] {
+    margin-bottom: 10px;
+}
+
+.grid-form input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+input[type="checkbox"] {
     margin-top: 10px;
-    font-size: 12px;
-    color: #777;
+}
+
+@media (max-width: 600px) {
+    .grid-form {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    .button-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+
+
+#addressPreview {
+    padding: 8px;
+    margin-top: 10px;
+    background: #f8f8f8;
+    border-radius: 4px;
+    min-height: 20px;
+}
+
+#addressPreview:empty::before {
+    content: "Адрес не указан";
+    color: #999;
 }

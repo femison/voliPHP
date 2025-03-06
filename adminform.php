@@ -9,7 +9,9 @@ include 'admin\get_task.php';
 include 'admin\deleteusertask.php';
 include 'admin\export.php';
 include 'admin\logout.php';
-include 'get_user_data.php';
+
+
+
 
 
 error_reporting(E_ALL);
@@ -803,116 +805,218 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
                     <button class="addbt" type="submit">Добавить</button>
                 </form>
                 <label for="printPDF" style="font-size: 15px;">Печать таблицы (Пользователь - Проект)</label>
-                <button name="printPDF" class='generate' onclick='openModal()'>На печать</button>
+                <button name="printPDF" class="generate" onclick="openModal()">На печать</button>
         </div>
     </div>
-
-<div id="printModal" class="modal">
-  <div class="modal-content">
-    <span class="close">×</span>
-    <div class="selection-section">
-        <label for="userSelect">Выберите пользователя:</label>
-        <select id="userSelect">
-            <!-- Сюда будут подставляться пользователи с сервера -->
-        </select>
-        
-        <label for="projectsSelect">Выберите проекты:</label>
-        <select id="projectsSelect" multiple size="6">
-            <!-- Сюда будут подставляться проекты с сервера -->
-        </select>
-
-        <button id="generatePDFBtn" onclick="generatePDF()">Сгенерировать PDF</button>
-    </div>
-  </div>
 </div>
 
+<div id="modal" class="modal"> 
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Печать таблицы</h2>
+        
+        <form action="">
+            <select id="projectSelecttt" name="projectIDDD" onchange="loadProjectTable()">
+                <option value="">Выберите проект</option>
+                <?php foreach ($projects as $project): ?>
+                    <option value="<?= htmlspecialchars($project['ProjectID']); ?>">
+                        <?= htmlspecialchars($project['ProjectName']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-<style>
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0,0,0);
-  background-color: rgb(0,0,0,0.4);
-}
+            <button type="button" name="printPDF" class="generate" onclick="generatePDF()">На печать</button>
+        </form>                     
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
+        <div id="napech">
+            <!-- Таблица будет загружаться сюда в зависимости от выбранного проекта -->
+        </div>
+    </div>
+</div>
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+<!-- iframe для печати -->
+<iframe id="printFrame" style="display:none;"></iframe>
 
-.close:hover, .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-</style>
 
 <script>
-
-    // Открытие модального окна
-function openModal() {
-    document.getElementById('printModal').style.display = 'block';
-    loadUsers();  // Загружаем пользователей при открытии модального окна
-}
-
-// Закрытие модального окна
-var modal = document.getElementById('printModal');
-var span = document.getElementsByClassName("close")[0];
-span.onclick = function() {
-    modal.style.display = "none";
-}
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-async function loadUsers() {
-    const response = await fetch('get_users.php');  // Ваш PHP-скрипт для получения пользователей
-    const data = await response.json();  // Преобразуем ответ в JSON
-
-    const userSelect = document.getElementById('userSelect');
-    userSelect.innerHTML = '';  // Очищаем список перед добавлением новых пользователей
-
-    if (data && data.length > 0) {
-        data.forEach(user => {
-            const option = document.createElement('option');
-            option.value = user.UserID;  // ID пользователя
-            option.textContent = `${user.Name} ${user.Surname}`;  // Имя и фамилия пользователя
-            userSelect.appendChild(option);
-        });
+// Функция для загрузки таблицы в зависимости от выбранного проекта
+// Функция для загрузки таблицы в зависимости от выбранного проекта
+function loadProjectTable() {
+    let projectID = document.getElementById('projectSelecttt').value;
+    
+    if (projectID) {
+        // Сделайте запрос на сервер для получения данных таблицы для выбранного проекта
+        // Пример с использованием Fetch API:
+        fetch('get_project_table.php?projectID=' + projectID)
+            .then(response => response.text())
+            .then(data => {
+                // Вставка полученных данных в контейнер с id 'napech'
+                document.getElementById('napech').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки таблицы:', error);
+            });
     } else {
-        const option = document.createElement('option');
-        option.value = '';
-        option.textContent = 'Нет доступных пользователей';
-        userSelect.appendChild(option);  // Добавляем сообщение, если пользователей нет
+        // Если проект не выбран, очищаем контейнер
+        document.getElementById('napech').innerHTML = '';
+    }
+}
+
+// Функция для печати PDF
+function generatePDF() {
+    let frame = document.getElementById('printFrame');
+    let frameDoc = frame.contentDocument || frame.contentWindow.document;
+
+    // Определение стилей для печати
+    const styles = `
+        <style>
+    @page {
+        size: A4; /* Устанавливаем размер страницы */
+        margin: 20mm; /* Устанавливаем поля страницы */
+    }
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Тень вокруг таблицы */
+    }
+    th, td {
+        padding: 12px 15px; /* Увеличенные отступы для удобства */
+        text-align: left;
+        border: 1px solid #ddd; /* Легкая граница для ячеек */
+    }
+    th {
+        background-color: #f4f4f4; /* Светлый фон для заголовков */
+        color: #333; /* Цвет текста */
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f9f9f9; /* Легкий фон для четных строк */
+    }
+    tr:nth-child(odd) {
+        background-color: #ffffff; /* Белый фон для нечетных строк */
+    }
+    tr:hover {
+        background-color: #f1f1f1; /* Цвет фона при наведении на строку */
+    }
+    .table-panel table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    .table-panel th, .table-panel td {
+        border: 1px solid #ccc; /* Легкая граница для ячеек */
+        padding: 10px 15px;
+        text-align: left;
+    }
+    .table-panel th {
+        background-color: #f2f2f2; /* Фон для заголовков */
+        color: #333;
+    }
+    .table-panel tbody tr:nth-child(even) {
+        background-color: #f9f9f9; /* Легкий фон для четных строк */
+    }
+    .table-panel ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+    .table-panel li {
+        list-style-type: disc;
+    }
+</style>
+
+    `;
+
+    // Получение HTML содержимого, которое нужно напечатать
+    const content = document.getElementById('napech').innerHTML;
+    
+    // Запись HTML и стилей в документ iframe
+    frameDoc.open();
+    frameDoc.write('<html><head><title>Печать таблицы</title>' + styles + '</head><body>');
+    frameDoc.write(content);
+    frameDoc.write('</body></html>');
+    frameDoc.close();
+
+    // Вызов окна печати после полной загрузки содержимого iframe
+    frame.onload = function() {
+        frame.contentWindow.print();
     }
 }
 
 
 
 
+// Функция для открытия модального окна
+function openModal() {
+    document.getElementById('modal').style.display = 'block';
+}
+
+// Функция для закрытия модального окна
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+// Закрытие модального окна при клике вне его области
+window.onclick = function(event) {
+    if (event.target == document.getElementById('modal')) {
+        closeModal();
+    }
+}
 
 
 </script>
 
+<style>
+
+    /* Модальное окно */
+.modal {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    z-index: 1000; /* Окно сверху */
+    left: 0;
+    top: 0;
+    width: 100%; /* Полный экран */
+    height: 100%;
+    overflow: auto; /* Обычное поведение прокрутки */
+    background-color: rgb(0,0,0); /* Черный фон с прозрачностью */
+    background-color: rgba(0,0,0,0.4); /* Полупрозрачный фон */
+}
+
+/* Контейнер модального окна */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Ширина окна */
+}
+
+/* Кнопка закрытия */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+</style>
 
 
+
+    
         <!-- Вывод таблицы с данными -->
         <div id = "napech" class="table-panel" style="margin-top: 20px;">
             <table>
