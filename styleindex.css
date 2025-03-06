@@ -97,7 +97,10 @@ input[type="submit"]:hover {
     filter: blur(5px);
     
     background-image: url(ico/icons8-volunteer-100.png)  ;
+    
     background-size: cover;
     width: 50%;
     background-color: transparent;
 }
+
+

@@ -159,6 +159,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="registerstyle.css">
 </head>
 <body>
+
+<div class="bg"></div> 
     <div class="container">
         <h1>Регистрация волонтера</h1>
         <form class="grid-form" method="POST" novalidate>
@@ -199,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Адрес -->
                 <div class="full-width">
                     <div class="address-preview">
-                        <button type="button" onclick="openModal()">Указать адрес</button>
+                        <button type="button" class="adresbut" onclick="openModal()">Указать адрес</button>
                             <div class="address-preview-text">
                                 <?php if(isset($old_input['region'])): ?>
                                     <?= htmlspecialchars(
@@ -310,12 +312,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="full-width button-group">
-                <button type="submit">Зарегистрироваться</button>
-                <button type="button" onclick="window.history.back()">Назад</button>
+                <button class = "btn-new" type="submit">Зарегистрироваться</button>
+                <a class = "btn-new-exit" href="../index.php">Вернуться к авторизации</a>
                 
             </div>
         </form>
     </div>
+
+    <style>
+
+
+    </style>
+
+
 
     <script>
        function openModal() {

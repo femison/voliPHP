@@ -435,8 +435,8 @@ $projects_on_page = array_slice($projects, $start_from, $records_per_page);
     <!-- Пагинация -->
     <div class="pagination">
         <?php if ($current_page > 1): ?>
-            <a href="?page=1">&laquo; Первая</a>
-            <a href="?page=<?php echo $current_page - 1; ?>">&lt; Предыдущая</a>
+            <a href="?page=1">&laquo; </a>
+            <a href="?page=<?php echo $current_page - 1; ?>">&lt; </a>
         <?php endif; ?>
 
         <?php
@@ -468,8 +468,8 @@ $projects_on_page = array_slice($projects, $start_from, $records_per_page);
         ?>
 
         <?php if ($current_page < $total_pages): ?>
-            <a href="?page=<?php echo $current_page + 1; ?>">Следующая &gt;</a>
-            <a href="?page=<?php echo $total_pages; ?>">Последняя &raquo;</a>
+            <a href="?page=<?php echo $current_page + 1; ?>"> &gt;</a>
+            <a href="?page=<?php echo $total_pages; ?>"> &raquo;</a>
         <?php endif; ?>
     </div>
 </div>
@@ -680,8 +680,8 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
     <!-- Пагинация -->
     <div class="pagination">
         <?php if ($current_page > 1): ?>
-            <a href="?page=1">&laquo; Первая</a>
-            <a href="?page=<?php echo $current_page - 1; ?>">&lt; Предыдущая</a>
+            <a href="?page=1">&laquo; </a>
+            <a href="?page=<?php echo $current_page - 1; ?>">&lt; </a>
         <?php endif; ?>
 
         <?php
@@ -713,8 +713,8 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
         ?>
 
         <?php if ($current_page < $total_pages): ?>
-            <a href="?page=<?php echo $current_page + 1; ?>">Следующая &gt;</a>
-            <a href="?page=<?php echo $total_pages; ?>">Последняя &raquo;</a>
+            <a href="?page=<?php echo $current_page + 1; ?>"> &gt;</a>
+            <a href="?page=<?php echo $total_pages; ?>"> &raquo;</a>
         <?php endif; ?>
     </div>
 </div>
@@ -1242,8 +1242,8 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
     <!-- Пагинация -->
     <div class="pagination">
         <?php if ($current_page > 1): ?>
-            <a href="?page=1">&laquo; Первая</a>
-            <a href="?page=<?php echo $current_page - 1; ?>">&lt; Предыдущая</a>
+            <a href="?page=1">&laquo; </a>
+            <a href="?page=<?php echo $current_page - 1; ?>">&lt; </a>
         <?php endif; ?>
 
         <?php
@@ -1275,8 +1275,8 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
         ?>
 
         <?php if ($current_page < $total_pages): ?>
-            <a href="?page=<?php echo $current_page + 1; ?>">Следующая &gt;</a>
-            <a href="?page=<?php echo $total_pages; ?>">Последняя &raquo;</a>
+            <a href="?page=<?php echo $current_page + 1; ?>"> &gt;</a>
+            <a href="?page=<?php echo $total_pages; ?>"> &raquo;</a>
         <?php endif; ?>
     </div>
 </div>

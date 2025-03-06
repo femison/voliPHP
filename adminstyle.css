@@ -37,7 +37,7 @@ body {
 .table-panel {
     padding: 20px;
     background-color: #fff;
-    border: 1px solid #ddd;
+    
     box-sizing: border-box;
     overflow-x: auto;
 }
@@ -100,23 +100,23 @@ body {
 
 .form-container {
     position: fixed;
-    top: 60px; /* Below the tabs, with additional space */
+    top: 40px; /* Below the tabs, with additional space */
     left: 0;
     width: 300px; /* Fixed width for the form */
     height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
     overflow-y: auto; /* Allows scrolling within the form */
-    padding: 20px;
+    padding: 15px;
     background-color: #F6F5F2;
     border-right: 1px solid #ddd;
     z-index: 50;
+    
 }
 
 .directory {
     padding: 20px;
     overflow-x: auto;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
+  
+    height: 100%;
     box-sizing: border-box;
     z-index: 500;
 }
@@ -394,3 +394,4 @@ section{
     width: 100%;
     height: 100%;
 }
+
