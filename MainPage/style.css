@@ -1,0 +1,409 @@
+/* Общая сетка */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Основная структура */
+.bg-silver {
+    background-color: #f0f0f0; /* Фон для header */
+    width: 100%;
+    position: fixed;
+}
+
+/* Основной контейнер для контента */
+.content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* Блок навигации */
+.flex-justify-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    background-color: rgb(245, 247, 250);
+    padding: 20px 40px;
+}
+
+/* Сетка для списка элементов */
+.listOfItems {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 колонки */
+    list-style: none;
+    gap: 20px;
+    justify-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.buttons, .RegisterBut {
+    background-color: rgb(76, 175, 79);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.125rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Уникальные фоны для секций */
+.intro {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #FFCDD2; /* Светлый красный */
+    padding: 322px 0;
+   
+}
+
+/* Описание текста */
+.text-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.Center_text {
+    font-weight: bold;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.Lower_Text {
+    font-size: 1.6em;
+    text-align: center;
+}
+
+.Lower_Text_clients {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    color: #666;
+}
+
+.clientside {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 40px;
+    justify-items: center;
+}
+
+.client-logo {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.client-logo img {
+    width: 120px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.client-logo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.client-logo:hover img {
+    transform: scale(1.1); /* Увеличение логотипа при наведении */
+}
+
+@media (max-width: 768px) {
+    .clientside {
+        grid-template-columns: 1fr 1fr; /* 2 колонки на мобильных */
+    }
+
+    .Center_text {
+        font-size: 2em;
+    }
+
+    .Lower_Text_clients {
+        font-size: 1.1em;
+    }
+}
+.square{
+    max-width: 100%;
+    max-height:100% ;
+}
+
+
+/* Секция с партнерами */
+.Clients {
+    background-color: #C8E6C9; /* Светлый зеленый */
+    padding: 60px 20px;
+    text-align: center;
+}
+
+/* Описание раздела 'Как вы можете помочь' */
+.About_us {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #C8E6C9; /* Желтый */
+}
+
+
+.legalising{
+    font-size:2.75rem;
+}
+
+.Text_suitable {
+    font-size: 1.25em;
+    margin-bottom: 40px;
+    color: #666;
+}
+
+/* Секция с 'Организация мероприятий', 'Образовательные программы' и др. */
+.flex-div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 0;
+    background-color: #FFCDD2; 
+}
+
+.Center_text_second {
+    font-weight: bold;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+
+
+
+
+.activity_section {
+    background-color: #F4F6FB; /* Легкий фон */
+    padding: 40px 0;
+    text-align: center;
+}
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Автоматическая настройка колонок */
+    gap: 10px 60px; /* Отступы между элементами: 10px по вертикали, 20px по горизонтали */
+    justify-items: center; /* Центрируем элементы по горизонтали */
+    max-width: 1200px; /* Ограничиваем максимальную ширину */
+    margin: 0 auto; /* Выравнивание грида по центру */
+}
+
+.activity-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.activity-item p {
+    font-size: 1em;
+    color: #333;
+    margin: 0;
+}
+
+
+.activity-text {
+    font-size: 1.2em;
+    color: #333;
+    font-weight: 500;
+    margin: 0;
+}
+
+.activity-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .activity-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных */
+    }
+
+    .title {
+        font-size: 1.5em;
+    }
+}
+
+
+.title {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #4A3C74; /* Цвет текста */
+}
+
+/* Секция помощи */
+.Helping_section {
+    background-color: #C8E6C9; /* Светлый зеленый */
+    padding: 40px 0;
+}
+
+/* Статистика */
+.members {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    justify-items: center;
+}
+
+.step-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 250px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-icon {
+    font-size: 3em;
+    color: #FFEB3B;
+    margin-bottom: 15px;
+}
+
+
+.step-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Описание в карточках */
+.step-card p {
+    font-size: 1em;
+    color: #777;
+}
+
+/* Эффект наведения для карточек */
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Медиазапросы для мобильных устройств */
+@media (max-width: 768px) {
+    .steps-grid {
+        grid-template-columns: 1fr 1fr; /* 2 колонки на мобильных */
+    }
+
+    .step-card {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .Center_text_second {
+        font-size: 2em;
+    }
+
+    .Text_suitable {
+        font-size: 1.1em;
+    }
+}
+
+.member_div, .club_div, .orders_div, .pay_div {
+    text-align: center;
+    width: 48%;
+}
+
+.sec-text {
+    margin-top: -1px;
+}
+
+/* Секция поддержки */
+.Support_section {
+    background-color: #FFF59D; /* Светлый желтый */
+    padding: 40px 0;
+}
+
+/* Футер */
+footer {
+    background-color: rgb(38, 50, 56);
+    text-align: center;
+    padding: 10px;
+    color: white;
+}
+
+.footer_text {
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer_section {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.copyright-div {
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+
+.email_div {
+    grid-column-start: 4;
+    grid-row-start: 2;
+}
+
+.email-input {
+    width: 300px;
+    height: 30px;
+    font-size: 13px;
+    border: 1px solid #cecece;
+    background: #F6F6f6;
+    border-radius: 8px;
+}
+
+/* Медиазапросы для адаптивности */
+@media (max-width: 768px) {
+    .listOfItems {
+        grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных */
+    }
+
+    .flex-justify-between {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .intro {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .flex-div {
+        flex-direction: column;
+    }
+
+    .members {
+        flex-direction: column;
+        align-items: center;
+    }
+}

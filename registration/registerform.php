@@ -191,6 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="full-width">
                 <input type="tel" name="phone" id="phone" placeholder="Телефон" required maxlength="18"
+                
                        value="<?= $old_input['phone'] ?? '' ?>" class="<?= isset($errors['phone']) ? 'error-input' : '' ?>">
                 <?php if(isset($errors['phone'])): ?>
                     <div class="error"><?= $errors['phone'] ?></div>
