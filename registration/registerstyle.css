@@ -86,7 +86,7 @@ input[type="tel"]:invalid,
 }
 
 .error-input {
-    border-color: #ffffff;
+    border-color: #fffff3;
 }
 
 
