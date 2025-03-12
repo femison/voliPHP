@@ -1,23 +1,35 @@
+
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #388E3C;
+    --section-spacing: 80px;
+    --transition-duration: 0.8s;
+}
+
 /* Общая сетка */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 /* Основная структура */
 .bg-silver {
-    background-color: #f0f0f0; /* Фон для header */
-    width: 100%;
+    background: rgba(245, 247, 250);
     position: fixed;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 }
 
 /* Основной контейнер для контента */
 .content {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    
 }
 
 /* Блок навигации */
@@ -26,21 +38,32 @@ html, body {
     justify-content: space-between;
     align-items: center;
     gap: 25px;
-    background-color: rgb(245, 247, 250);
-    padding: 20px 40px;
+    background-color: rgba(245, 247, 250);
+    padding: 10px 40px;
+    box-shadow: 0 10px 15px 5px rgba(255, 255, 255, 0.5); /* Белая тень */
 }
 
 /* Сетка для списка элементов */
 .listOfItems {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 колонки */
+    grid-template-columns: repeat(3, 1fr); /* 4 колонки */
     list-style: none;
-    gap: 20px;
-    justify-items: center;
+    gap: 35px;
     font-family: 'Roboto', sans-serif;
+    padding-left: 0;
 }
 
-.buttons, .RegisterBut {
+.header-li {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.header-li:hover {
+    color: var(--primary-color);
+}
+
+.buttons {
     background-color: rgb(76, 175, 79);
     color: white;
     border: none;
@@ -49,14 +72,69 @@ html, body {
     font-family: 'Open Sans', sans-serif;
 }
 
+
+.RegisterBut{
+    padding: 15px 25px;
+    border: unset;
+    border-radius: 15px;
+    color: #212121;
+    z-index: 1;
+    background: #e8e8e8;
+    position: relative;
+    font-weight: 1000;
+    font-size: 17px;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    transition: all 250ms;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.RegisterBut::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 15px;
+    background-color: #212121;
+    z-index: -1;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+    transition: all 250ms
+}
+
+.RegisterBut:hover {
+    color: #e8e8e8;
+   }
+
+.RegisterBut:hover::before {
+width: 100%;
+}
+
 /* Уникальные фоны для секций */
 .intro {
+    position: relative;
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    background-color: #FFCDD2; /* Светлый красный */
-    padding: 322px 0;
+    align-items: center;    
    
+    padding-top: 17%;
+    padding-bottom: 17%;
+    padding-left: 7%;
+    z-index: 1;
+   
+}
+
+.logo-img{
+    width: 100%;
+    height: 100%;
+}
+
+.logo{
+    width: 3%;
+    height: 3%;
 }
 
 /* Описание текста */
@@ -78,6 +156,7 @@ html, body {
 .Lower_Text {
     font-size: 1.6em;
     text-align: center;
+    color: #FFFFE3;
 }
 
 .Lower_Text_clients {
@@ -88,9 +167,13 @@ html, body {
 
 .clientside {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(6, 14%);
+    justify-content: center;
     justify-items: center;
+}
+
+.Business_div_2{
+    padding-right: 10px;
 }
 
 .client-logo {
@@ -99,7 +182,7 @@ html, body {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+    cursor:pointer;
     
     display: flex;
     justify-content: center; 
@@ -137,34 +220,41 @@ html, body {
 .square{
     max-width: 100%;
     max-height:100% ;
+    
 }
 
 
 /* Секция с партнерами */
 .Clients {
-    background-color: #C8E6C9; /* Светлый зеленый */
-    padding: 60px 20px;
+    position: relative;
+    padding: 4rem 1rem;
     text-align: center;
+    background-color: white;
 }
+
+
+
 
 /* Описание раздела 'Как вы можете помочь' */
 .About_us {
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding: 60px 20px;
-    background-color: #C8E6C9; /* Желтый */
+    padding: 1rem 1rem;
+    padding-bottom: 4rem;
+   
 }
 
 
 .legalising{
     font-size:2.75rem;
+    color: #FFFFE3;
 }
 
 .Text_suitable {
     font-size: 1.25em;
     margin-bottom: 40px;
-    color: #666;
+    color: #111;
 }
 
 /* Секция с 'Организация мероприятий', 'Образовательные программы' и др. */
@@ -174,7 +264,6 @@ html, body {
     align-items: center;
     gap: 20px;
     padding: 40px 0;
-    background-color: #FFCDD2; 
 }
 
 .Center_text_second {
@@ -184,8 +273,46 @@ html, body {
     color: #333;
 }
 
+.About_us{
+    background-color: #F4F6FB;
+}
+.intro-secs{
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
 
+}
 
+.intro-secs::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    z-index: 1;
+    animation: waveFlow 3s infinite linear;
+  }
+  
+  
+  
+
+.man-image{
+    position: absolute; /* Помещаем картинку за текст */
+    top: 0;
+    left: 0;
+    width: 100%; /* Делаем картинку на весь экран */
+    height: 100%; /* Заполняем весь контейнер */
+    z-index: -1; /* Картинка за текстом */
+    object-fit: cover; /* Обеспечивает сохранение пропорций картинки при растяжении */
+    filter: blur(2px);
+    transition: filter 0.5s ease;
+}
+
+.intro-secs:hover .man-image {
+    filter: blur(0);
+  }
 
 
 .activity_section {
@@ -214,6 +341,7 @@ html, body {
     align-items: center;
     width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 
@@ -250,13 +378,16 @@ html, body {
 .title {
     font-size: 2.5em;
     font-weight: bold;
-    margin-bottom: 40px;
-    color: #4A3C74; /* Цвет текста */
+    margin-bottom: 20px;
+    color: #333; /* Цвет текста */
+    display: flex;
+    justify-content: center;
+    
 }
 
 /* Секция помощи */
 .Helping_section {
-    background-color: #C8E6C9; /* Светлый зеленый */
+    background-color: #ffffff; 
     padding: 40px 0;
 }
 
@@ -283,11 +414,12 @@ html, body {
     width: 100%;
     max-width: 250px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .step-icon {
     font-size: 3em;
-    color: #FFEB3B;
+    color: black;
     margin-bottom: 15px;
 }
 
@@ -341,20 +473,30 @@ html, body {
 
 /* Секция поддержки */
 .Support_section {
-    background-color: #FFF59D; /* Светлый желтый */
-    padding: 40px 0;
+    padding: 40px;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 10vh;
+    margin-bottom: 5%;
+    
 }
 
 /* Футер */
 footer {
     background-color: rgb(38, 50, 56);
     text-align: center;
-    padding: 10px;
+    padding: 20px;
     color: white;
+    z-index: 999;
+    position: sticky    ;
 }
 
 .footer_text {
     font-family: 'Roboto', sans-serif;
+    margin-bottom: 10px ;
 }
 
 .footer_section {
@@ -364,8 +506,13 @@ footer {
 }
 
 .copyright-div {
+    display: flex;
+    flex-direction: column;
     grid-column-start: 2;
     grid-row-start: 2;
+    align-items: center;
+    position:fixed;
+
 }
 
 .email_div {
@@ -407,3 +554,138 @@ footer {
         align-items: center;
     }
 }
+
+/* From Uiverse.io by satyamchaudharydev */ 
+.login-but {
+    --primary-color: #645bff;
+    --secondary-color: #fff;
+    --hover-color: #111;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    padding: 1em 1.8em;
+    background: var(--primary-color);
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+  }
+  
+  .login-but .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-but .arrow {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+  }
+  
+  .login-but .arrow::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+  }
+  
+  .login-but:hover {
+    background-color: var(--hover-color);
+  }
+  
+  .login-but:hover .arrow {
+    background: var(--secondary-color);
+  }
+  
+  .login-but:hover .arrow:before {
+    right: 0;
+  }
+
+
+.login-text{
+    text-decoration: none;
+}
+
+.Helping_div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.helping-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 4 колонки */
+    gap: 10px 60px; /* Отступы между элементами: 10px по вертикали, 20px по горизонтали */
+    
+    max-width: 1200px; /* Ограничиваем максимальную ширину */
+    margin: 0 auto; /* Выравнивание грида по центру */
+}
+
+.table{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.help-item{
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.15rem;
+}
+
+.opis{
+    padding-bottom:10px;
+}
+
+
+.header-li{
+    cursor: pointer;
+    color: #111;
+    text-decoration: none; 
+}
+
+.dog-link{
+    display: flex;
+    background-color: #f3f7fe;
+    color: #3b82f6;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+   padding: 10px;
+    transition: 0.3s;
+    
+
+}
+
+.dog-link:hover{
+    background-color: #3b82f6;
+  box-shadow: 0 0 0 5px #3b83f65f;
+  color: #fff;
+}
+
+
+section.about-events{
+    padding-top: 10vh;
+}
+
+
+    

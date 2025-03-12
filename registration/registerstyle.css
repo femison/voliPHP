@@ -9,12 +9,13 @@ body {
     background-color: #f4f4f4;
     color: #333;
     display: flex;
-    justify-content: center;
+    
     align-items: center;
     height: 100vh;
 }
 
 .container {
+    height: 100%;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -22,11 +23,11 @@ body {
     width: 100%;
     max-width: 600px;
     z-index: 1;
+    
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 .grid-form {
@@ -38,6 +39,7 @@ h1 {
 .grid-form div {
     display: flex;
     flex-direction: column;
+    gap:5px;
 }
 
 input[type="text"],
@@ -74,6 +76,7 @@ input[type="tel"]:invalid,
 
 .full-width {
     width: 100%;
+    
 }
 
 .error {
@@ -83,9 +86,8 @@ input[type="tel"]:invalid,
 }
 
 .error-input {
-    border-color: #ffffff;
+    border-color: #fffff3;
 }
-
 
 
 input[type="radio"] {
@@ -93,15 +95,13 @@ input[type="radio"] {
 }
 
 .address-preview {
-    background-color: #f4f4f4;
+    
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
 }
 
-.address-preview:hover {
-    background-color: #e0e0e0;
-}
+
 
 .adresbut{
     box-sizing: border-box;
@@ -225,41 +225,8 @@ input[type="checkbox"] {
     color: #999;
 }
 
-.btn-new {
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: transparent;
-    border: 2px solid #3A7D44;
-    border-radius: 0.6em;
-    color: #3A7D44;
-    cursor: pointer;
-    display: flex;
-    align-self: center;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1;
-    margin: 5px;
-    padding: 0.5em 11em;
-    text-decoration: none;
-    text-align: center;
-    text-transform: uppercase;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out, transform 300ms ease-in-out;
-}
 
-.btn-new:hover {
-    color: #fff;
-    background-color: #3A7D44;
-    box-shadow: 0px 5px 15px rgba(80, 231, 60, 0.5);
-    
-}
 
-.btn-new:focus {
-    outline: none;
-}
 
 @keyframes btnPulse {
     0% {
@@ -273,68 +240,77 @@ input[type="checkbox"] {
     }
 }
 
-.btn-new:active {
-    animation: btnPulse 0.3s ease-out;
-}
 
 
 
 
 
-
-/*  */
-
-.btn-new-exit {
+/* From Uiverse.io by satyamchaudharydev */ 
+button {
+    --primary-color: #645bff;
+    --secondary-color: #fff;
+    --hover-color: #111;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
     box-sizing: border-box;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: transparent;
-    border: 2px solid #e74c3c;
-    border-radius: 0.6em;
-    color: #e74c3c;
-    cursor: pointer;
+    border: 0;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    padding: 1em 1.8em;
+    background: var(--primary-color);
     display: flex;
-    align-self: center;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1;
-    margin: 5px;
-    padding: 0.5em 9.6em;
-    text-decoration: none;
-    text-align: center;
-    text-transform: uppercase;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 700;
-    transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out, transform 300ms ease-in-out;
-}
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+    justify-content: center;
+  }
+  
+  button .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  button .arrow {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+  }
+  
+  button .arrow::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+  }
+  
+  button:hover {
+    background-color: var(--hover-color);
+  }
+  
+  button:hover .arrow {
+    background: var(--secondary-color);
+  }
+  
+  button:hover .arrow:before {
+    right: 0;
+  }
 
-.btn-new-exit:hover {
-    color: #fff;
-    background-color: #e74c3c;
-    box-shadow: 0px 5px 15px rgba(231, 76, 60, 0.5);
-   
-}
 
-.btn-new-exit:focus {
-    outline: none;
-}
 
-@keyframes btnPulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 
-.btn-new-exit:active {
-    animation: btnPulse 0.3s ease-out;
-}
+
 
 .bg {
     position: absolute;
@@ -359,6 +335,90 @@ input[type="checkbox"] {
     opacity: 0.8; /* Прозрачность при наведении увеличивается */
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.btn {
+    --primary-color: #645bff;
+    --secondary-color: #fff;
+    --hover-color: #111;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    padding: 1em 1.8em;
+    background: var(--primary-color);
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+    justify-content: center;
+    text-decoration: none;
+    font-size:15px;
+  }
+  
+  .btn .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btn .arrow {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(
+        --arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+  }
+  
+  .btn .arrow::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+  }
+  
+  .btn:hover {
+    background-color: var(--hover-color);
+  }
+  
+  .btn:hover .arrow {
+    background: var(--secondary-color);
+  }
+  
+  .btn:hover .arrow:before {
+    right: 0;
+  }
+
+
+  .full-width-button-group{
+    padding-top: 15px;
+  }
 
 
 

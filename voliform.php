@@ -148,7 +148,7 @@
 
                     if (mysqli_num_rows($projects_result) > 0) {
                         while ($project = mysqli_fetch_assoc($projects_result)) {
-                            echo "<a href='project_details.php?project_id=" . intval($project['ProjectID']) . "' class='project active'>";
+                            echo "<a href='' class='project active'>";
                             echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
                             echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
                             echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";

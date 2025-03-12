@@ -1,153 +1,5 @@
 <?php
-require 'db_connection.php'; // Подключение к базе данных
-
-$errors = [];
-$old_input = [];
-$address_fields = ['region', 'city', 'street', 'house', 'apartment'];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Сбор данных
-    $fields = array_merge(
-        [
-            'name' => trim($_POST['name'] ?? ''),
-            'surname' => trim($_POST['surname'] ?? ''),
-            'email' => trim($_POST['email'] ?? ''),
-            'phone' => trim($_POST['phone'] ?? ''),
-            'dob' => trim($_POST['dob'] ?? ''),
-            'gender' => trim($_POST['gender'] ?? ''),
-            'skills' => trim($_POST['skills'] ?? ''),
-            'login' => trim($_POST['login'] ?? ''),
-            'password' => $_POST['password'] ?? ''
-        ],
-        array_combine(
-            $address_fields,
-            array_map(fn($f) => trim($_POST[$f] ?? ''), $address_fields)
-        )
-    );
-
-    // Санитизация
-    foreach ($fields as $key => $value) {
-        $old_input[$key] = htmlspecialchars($value);
-        $fields[$key] = mysqli_real_escape_string($connect, $value);
-    }
-
-    // Валидация
-    $validations = [
-        'name' => [
-            'pattern' => '/^[А-Яа-я\s\-]{2,20}$/u',
-            'message' => 'Имя: 2-20 символов (только русские буквы, пробелы, дефисы)'
-        ],
-        'surname' => [
-            'pattern' => '/^[А-Яа-я\s\-]{2,20}$/u',
-            'message' => 'Фамилия: 2-20 символов (только русские буквы, пробелы, дефисы)'
-        ],
-        'email' => [
-            'filter' => FILTER_VALIDATE_EMAIL,
-            'message' => 'Некорректный email'
-        ],
-        'phone' => [
-            'pattern' => '/^\+7\(\d{3}\) \d{3}-\d{2}-\d{2}$/',
-            'message' => 'Формат: +7(XXX) XXX-XX-XX'
-        ],
-        'region' => [
-            'pattern' => '/^[А-Яа-я\s\-]{2,50}$/u',
-            'message' => 'Область: 2-50 символов (только русские буквы, дефисы)'
-        ],
-        'city' => [
-            'pattern' => '/^[А-Яа-я\s\-]{2,50}$/u',
-            'message' => 'Город: 2-50 символов (только русские буквы, дефисы)'
-        ],
-        'street' => [
-            'pattern' => '/^[А-Яа-я0-9\s\-\/]{2,50}$/u',
-            'message' => 'Улица: 2-50 символов (только русские буквы, цифры, пробелы, дефисы)'
-        ],
-        'house' => [
-            'pattern' => '/^[А-Яа-яA-Za-z0-9\/\-]{1,10}$/u',
-            'message' => 'Дом: 1-10 символов (буквы, цифры, дефисы)'
-        ],
-        'apartment' => [
-            'pattern' => '/^[0-9\-]{0,10}$/',
-            'message' => 'Квартира: до 10 символов (цифры, дефисы)',
-            'optional' => true
-        ],
-        'password' => [
-            'pattern' => '/(?=.*\d)(?=.*[A-Z]).{6,50}/',
-            'message' => 'Пароль: минимум 6 символов, 1 цифра и заглавная буква'
-        ]
-    ];
-
-    foreach ($validations as $field => $rule) {
-        if (empty($fields[$field])) {
-            if (!isset($rule['optional'])) $errors[$field] = $rule['message'];
-            continue;
-        }
-
-        if (isset($rule['filter'])) {
-            if (!filter_var($fields[$field], $rule['filter'])) {
-                $errors[$field] = $rule['message'];
-            }
-        } elseif (!preg_match($rule['pattern'], $fields[$field])) {
-            $errors[$field] = $rule['message'];
-        }
-    }
-
-    // Проверка даты рождения
-    $min_dob = date('Y-m-d', strtotime('-16 years'));
-    if ($fields['dob'] > $min_dob) {
-        $errors['dob'] = 'Возраст должен быть не менее 16 лет';
-    }
-
-    // Проверка уникальности логина
-    $stmt = mysqli_prepare($connect, "SELECT UserID FROM usercredentials WHERE Login = ?");
-    mysqli_stmt_bind_param($stmt, "s", $fields['login']);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_store_result($stmt);
-    if (mysqli_stmt_num_rows($stmt) > 0) {
-        $errors['login'] = 'Этот логин уже занят';
-    }
-    mysqli_stmt_close($stmt);
-
-    // Если нет ошибок - регистрация
-    if (empty($errors)) {
-        // Формирование адреса
-        $address = sprintf("Обл. %s, г. %s, ул. %s, д. %s",
-            $fields['region'], $fields['city'],
-            $fields['street'], $fields['house']
-        );
-        if (!empty($fields['apartment'])) {
-            $address .= ", кв. " . $fields['apartment'];
-        }
-
-        // Сохранение пользователя
-        $stmt = mysqli_prepare($connect,
-            "INSERT INTO users (Name, Surname, Email, Phone, DateOfBirth, Gender, Address, Role, UserSkills)
-             VALUES (?, ?, ?, ?, ?, ?, ?, 'Волонтер', ?)");
-        mysqli_stmt_bind_param($stmt, "ssssssss",
-            $fields['name'], $fields['surname'], $fields['email'],
-            $fields['phone'], $fields['dob'], $fields['gender'],
-            $address, $fields['skills']);
-
-        if (!mysqli_stmt_execute($stmt)) {
-            echo "Ошибка при сохранении пользователя: " . mysqli_error($connect);
-        }
-        $user_id = mysqli_insert_id($connect);
-        mysqli_stmt_close($stmt);
-
-        // Сохранение учетных данных
-        $hashed_password = password_hash($fields['password'], PASSWORD_BCRYPT);
-        $stmt = mysqli_prepare($connect,
-            "INSERT INTO usercredentials (UserID, Login, Password) VALUES (?, ?, ?)");
-        mysqli_stmt_bind_param($stmt, "iss", $user_id, $fields['login'], $hashed_password);
-
-        if (!mysqli_stmt_execute($stmt)) {
-            echo "Ошибка при сохранении учетных данных: " . mysqli_error($connect);
-        }
-        mysqli_stmt_close($stmt);
-
-        header("Location: ../index.php");
-        exit();
-    }
-}
+// Сделать логику добавления пользователя и проверку на правильность заполенения поля 
 ?>
 
 <!DOCTYPE html>
@@ -155,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация волонтера</title>
+    <title>Регистрация</title>
     <link rel="stylesheet" href="registerstyle.css">
 </head>
 <body>
@@ -199,76 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
            
-            <!-- Адрес -->
-                <div class="full-width">
-                    <div class="address-preview">
-                        <button type="button" class="adresbut" onclick="openModal()">Указать адрес</button>
-                            <div class="address-preview-text">
-                                <?php if(isset($old_input['region'])): ?>
-                                    <?= htmlspecialchars(
-                                        "Обл. {$old_input['region']}, г. {$old_input['city']}, " . 
-                                        "ул. {$old_input['street']}, д. {$old_input['house']}" . 
-                                        (!empty($old_input['apartment']) ? ", кв. {$old_input['apartment']}" : '')
-                                    ) ?>
-                                <?php else: ?>
-                                    Нажмите для ввода адреса
-                                <?php endif; ?>
-                            </div>
-                    </div>
-                    <?php if(isset($errors['address'])): ?>
-                        <div class="error"><?= $errors['address'] ?></div>
-                    <?php endif; ?>
-                </div>
-
-            <!-- Модальное окно адреса -->
-            <div id="addressModal" class="modal" hidden>
-                <div class="modal-content">
-                    <h3>Введите адрес</h3>
-                    <div style="display: grid; gap: 15px;">
-                        <div>
-                            <input type="text" name="region" placeholder="Область" required maxlength="50"
-                                   value="<?= $old_input['region'] ?? '' ?>" class="<?= isset($errors['region']) ? 'error-input' : '' ?>">
-                            <?php if(isset($errors['region'])): ?>
-                                <div class="error"><?= $errors['region'] ?></div>
-                            <?php endif; ?>
-                        </div>
-
-                        <div>
-                            <input type="text" name="city" placeholder="Город" required maxlength="50"
-                                   value="<?= $old_input['city'] ?? '' ?>" class="<?= isset($errors['city']) ? 'error-input' : '' ?>">
-                            <?php if(isset($errors['city'])): ?>
-                                <div class="error"><?= $errors['city'] ?></div>
-                            <?php endif; ?>
-                        </div>
-
-                        <div>
-                            <input type="text" name="street" placeholder="Улица" required maxlength="50"
-                                   value="<?= $old_input['street'] ?? '' ?>" class="<?= isset($errors['street']) ? 'error-input' : '' ?>">
-                            <?php if(isset($errors['street'])): ?>
-                                <div class="error"><?= $errors['street'] ?></div>
-                            <?php endif; ?>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <div>
-                                <input type="text" name="house" placeholder="Дом" required maxlength="10"
-                                       value="<?= $old_input['house'] ?? '' ?>" class="<?= isset($errors['house']) ? 'error-input' : '' ?>">
-                                <?php if(isset($errors['house'])): ?>
-                                    <div class="error"><?= $errors['house'] ?></div>
-                                <?php endif; ?>
-                            </div>
-                            <div>
-                                <input type="text" name="apartment" placeholder="Квартира" maxlength="10"
-                                       value="<?= $old_input['apartment'] ?? '' ?>" class="<?= isset($errors['apartment']) ? 'error-input' : '' ?>">
-                                <?php if(isset($errors['apartment'])): ?>
-                                    <div class="error"><?= $errors['apartment'] ?></div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
+           
+            <div class="full-width">
+                <input type="text" name="city" placeholder="Населенный пункт" maxlength="30" value="<?= $old_input['city'] ?? '' ?>" class="<?= isset($errors['city']) ? 'error-input' : '' ?>">
             </div>
+            
 
             <div class="full-width">
                 <input type="text" name="skills" placeholder="Навыки и пожелания" maxlength="30" value="<?= $old_input['skills'] ?? '' ?>" class="<?= isset($errors['skills']) ? 'error-input' : '' ?>">
@@ -312,19 +99,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </label>
             </div>
 
-            <div class="full-width button-group">
-                <button class = "btn-new" type="submit">Зарегистрироваться</button>
-                <a class = "btn-new-exit" href="../index.php">Вернуться к авторизации</a>
+            <div class="full-width-button-group">
                 
+            
+            
+                <button class = "btn" type="submit">
+
+                Зарегистрироваться
+                <div class="arrow-wrapper">
+                    <div class="arrow"></div>
+
+                </div>
+                
+                
+                </button>
+                
+
+                
+                
+                <a class="btn" href="../MainPage/index.php">
+                    
+                    Вернуться на главную
+                    <div class="arrow-wrapper">
+                        <div class="arrow">
+
+                        </div>
+                    </div>
+                    
+                </a>
+
+
+               
+
+            
+                
+                
+                
+                
+
             </div>
         </form>
     </div>
 
-    <style>
-
-
-    </style>
-
+    
 
 
     <script>
@@ -332,9 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.getElementById('addressModal').removeAttribute('hidden');
         }
 
-        function saveAddress() {
-    const fields = ['region', 'city', 'street', 'house', 'apartment'];
-    let valid = true;
+        
     
     // Сброс предыдущих ошибок
     fields.forEach(field => {
@@ -372,7 +187,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         document.getElementById('addressPreview').textContent = address;
         document.getElementById('addressModal').setAttribute('hidden', true);
     }
-}
+
 
         // Показать/скрыть пароль
         function togglePassword() {

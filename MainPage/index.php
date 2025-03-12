@@ -1,3 +1,83 @@
+<?php
+// Подключение к базе данных
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "voli";
+
+// Создание подключения
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Проверка подключения
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// SQL запрос для подсчета пользователей с ролью "Волонтер"
+$sql = "SELECT COUNT(*) AS total FROM users WHERE role = 'Волонтер'";
+$result = $conn->query($sql);
+
+// Получение и вывод результата
+$totalVolunteers = 0;
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $totalVolunteers = $row["total"];
+    }
+} else {
+    $totalVolunteers = 0;
+}
+
+
+$sqlproj = "SELECT COUNT(*) AS total FROM projects WHERE Status = 'Завершен'";
+$result = $conn->query($sqlproj);
+
+
+$totalCompletedProjects = 0;
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $totalCompletedProjects = $row["total"];
+    }
+} else {
+    $totalCompletedProjects = 0;
+}
+
+
+
+
+$sqlavailproj = "SELECT COUNT(*) AS total FROM projects WHERE Status = 'Планируется' OR Status = 'Активен'";
+$res = $conn->query($sqlavailproj);
+
+$totalavalproj = 0;
+if ($res->num_rows > 0) {
+    while($row = $res->fetch_assoc()) {
+        $totalavalproj = $row["total"];
+    }
+} else {
+    $totalavalproj = 0;
+}
+
+
+$colplaces = "SELECT count(Location) AS total FROM voli.taskinfo";
+$resus = $conn->query($colplaces);
+
+$totalplaces = 0;
+if ($resus->num_rows > 0) {
+    while($row = $resus->fetch_assoc()) {
+        $totalplaces = $row["total"];
+    }
+} else {
+    $totalplaces = 0;
+}
+
+
+
+
+$conn->close();
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/html">
     <head>
@@ -5,8 +85,11 @@
         <title>Волонтерская программа</title>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
-    </head>
-    
+        <title>Главная страница</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
 <body>
 
 <div class="content">
@@ -15,56 +98,58 @@
         <nav class="flex-justify-between">
             <div class='logo'>
                 <a href="#">
-                    <img src="ico/Logo.svg" alt="BrandLogo">
+                    <img class = "logo-img" src="ico/logo.png" alt="BrandLogo">
                 </a>
             </div>
 
             <div class="navigation">
                 <ul class="listOfItems">
                     <li>
-                        <a>Главная</a>
+                        <a class = "header-li" href="index.php">Главная</a>
                     </li>
                     <li>
-                        <a>Мероприятия</a>
+                        <a href = "ivents.php" class = "header-li">Мероприятия</a>
                     </li>
                     <li>
-                        <a>Стать волонтерам</a>
+                        <a href="../registration/registerform.php" class = "header-li">Стать волонтерам</a>
                     </li>
-                    <li>
-                        <a>Контакты</a>
-                    </li>
+                    
                 </ul>
             </div>
 
             <div class="buttons-container">
-                <button class="buttons">
-                    <a>Войти</a>
-                </button>
-
-                <button class="buttons">
-                    <a>Связаться с нами</a>
-                </button>
+                <a class = "login-text" href="../index.php">
+                    <button class="login-but">
+                        Войти
+                        <div class="arrow-wrapper">
+                            <div class="arrow"></div>
+                        </div>
+                    </button>
+                </a>
             </div>
+            
         </nav>
     </header>
 
-<section>
-
+<section class ="intro-secs">
+    <img class="man-image" src="ico\clean-forest.jpg" alt="" style = "z-index:0">
         <div class="intro">
-
+            
             <div class="Business_div_2">
+           
                 <h1 class="legalising">
                     Волонтерская работа и ее значимость <br>
                     <span class="text-brand-primary">в современном обществе</span>
                 </h1>
 
                 <p class="Lower_Text">Как стать частью волонтерской команды и менять мир к лучшему?</p>
-                <button class="RegisterBut">Регистрация волонтера</button>
+                <a href="../registration/registerform.php">
+                    <button class="RegisterBut">Подать заявку</button>
+                </a>
             </div>
-
-            <img class="man-image" src="ico/volunteer.png" alt="">
-
-    </div>
+            
+        </div>
+        
 </section>
 
 <section class="Clients">
@@ -73,22 +158,23 @@
 
     <div class="clientside">
         <div class="client-logo">
-            <img class="square" src="ico/les_hoz.png" alt="Charity">
+            
+            <img class="square" src="ico/les_hoz.png" alt="Charity" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/min_prirodi.png" alt="Community">
+            <img class="square" src="ico/min_prirodi.png" alt="Community" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/ohrana_prirodi.png" alt="NGO">
+            <img class="square" src="ico/ohrana_prirodi.png" alt="NGO" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/tvoj_geroj.png" alt="NGO">
+            <img class="square" src="ico/tvoj_geroj.png" alt="NGO" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/edinru.png" alt="NGO">
+            <img class="square" src="ico/edinru.png" alt="NGO" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/Dobrorf_Logo.png" alt="NGO">
+            <img class="square" src="ico/Dobrorf_Logo.png" alt="NGO" >
         </div>
     </div>
 </section>
@@ -106,7 +192,7 @@
                 <p>Заполните простую анкету за 5 минут</p>
             </div>
             <div class="step-card">
-                <div class="step-icon"><i class="fas fa-tasks"></i></div>
+                <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
                 <h3>Выбор проекта</h3>
                 <p>Подберите подходящее мероприятие</p>
             </div>
@@ -210,43 +296,58 @@
 
 <section class="Helping_section">
     <div class="Helping_div">
-        <h1 class="ideas">
-            Мы помогаем людям <br>
-            <span class="Secondary">с каждым днем</span>
+        <h1 class="title">
+            О платформе
         </h1>
+        <p class = "opis">Мы организуем различные мероприятия для нуждающихся.</p>
+
+        
     </div>
-    <div class="members">
-        <div class="member_div">
-            <b>1200</b>
-            <p class="sec-text">Участников</p>
-        </div>
+    <div class = "table">
+        <div class="helping-grid">
+            <div class="activity-item">
+                <b class = 'int-user'> <?php echo $totalVolunteers; ?></b>
+                <p class="sec-text">Волонтеров</p>
+            </div>
 
-        <div class="club_div">
-            <b>50</b>
-            <p class="sec-text">Местных организаций</p>
-        </div>
+            <div class="activity-item">
+            <b class = 'int-user'> <?php echo $totalplaces; ?></b>
+                <p class="sec-text">Мест проведения</p>
+            </div>
+            
+            
 
-        <div class="orders_div">
-            <b>300</b>
-            <p class="sec-text">Помощь оказана</p>
-        </div>
+            <div class="activity-item">
+                <b class = 'int-user'> <?php echo $totalCompletedProjects; ?></b>
+                <p class="sec-text">Добрых дел</p>
+            </div>
 
-        <div class="pay_div">
-            <b>1500</b>
-            <p class="sec-text">Собрано средств</p>
+            <div class="activity-item">
+            <b class = 'int-user'> <?php echo $totalavalproj; ?></b>
+                <p class="sec-text">Доступных проектов</p>
+            </div>
         </div>
+        
     </div>
 </section>
 
 <section class="Support_section">
     <div class="Business">
-        <img class="bus_img" src="ico/brandLogo/customer-support.png" alt="">
+        
 
         <div class="Business_div_2">
-            <h1>Волонтерская поддержка</h1>
-            <p>
+            <h1 class="title">Волонтерская поддержка</h1>
+            <p class = "Text_suitable">
                 Наша команда всегда готова поддержать волонтеров в их начинаниях. Мы предоставляем информационную, юридическую и практическую помощь.
             </p>
+            <div class="support_options">
+                <ul class = "Text_suitable">
+                    <li><strong>Информационная поддержка:</strong> Предоставление актуальной информации о волонтерских проектах и событиях.</li>
+                    <li><strong>Юридическая помощь:</strong> Консультации по правовым вопросам, связанным с волонтерской деятельностью.</li>
+                    <li><strong>Практическая помощь:</strong> Помощь в организации мероприятий и в решении текущих вопросов на местах.</li>
+                </ul>
+            </div>
+           
         </div>
     </div>
 </section>
@@ -260,6 +361,7 @@
         <div class="copyright-div">
             <p class="footer_text">Copyright © 2025 Volunteering Organization</p>
             <p class="footer_text">Все права защищены</p>
+            <a class="dog-link" href="../docs/Договор.pdf">Договор</a>
         </div>
 
         <div class="email_div">
@@ -271,5 +373,34 @@
     </section>
 </footer>
 
+
+
+<script>
+// Анимация появления секций
+const sections = document.querySelectorAll('section');
+        const checkVisibility = () => {
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8 && rect.bottom > 0) {
+                    section.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('resize', checkVisibility);
+        checkVisibility();
+
+        // Плавный скролл
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    
+</script>
 </body>
 </html>
