@@ -161,8 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 
 <div class="bg"></div> 
-    <div class="container">
-        <h1>Регистрация волонтера</h1>
+    <div class="container" style="padding-top:3%">
+        <h1 >Регистрация</h1>
         <form class="grid-form" method="POST" novalidate>
             <!-- Основные поля -->
             <div>
