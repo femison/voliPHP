@@ -260,41 +260,44 @@ mysqli_close($connect);
 </div>
 
 <div id="userlogTab" class="tabcontent">
-    <h2>Учетные записи</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Логин</th>
-                <th>Пароль</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($login as $userCredentials): ?>
-    <tr>
-        <td><?= htmlspecialchars($userCredentials['Name']) ?></td>
-        <td><?= htmlspecialchars($userCredentials['Surname']) ?></td>
-        <td>
-            <?= $userCredentials['Login'] ? htmlspecialchars($userCredentials['Login']) : '<span style="color: red;">Без логина</span>' ?>
-        </td>
-        <td>
-            <?= $userCredentials['Password'] ? htmlspecialchars($userCredentials['Password']) : '<span style="color: red;">Без пароля</span>' ?>
-        </td>
-        <td>
-        <button class="action-button" onclick="openEditCredentials(this, <?= $userCredentials['UserID']; ?>, '<?= htmlspecialchars($userCredentials['Login'] ?? '', ENT_QUOTES); ?>', '<?= htmlspecialchars($userCredentials['Password'] ?? '', ENT_QUOTES); ?>');">
-    <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh;">
-</button>
+    <div class ='zayavki-div'>
+
+        <h2>Учетные записи</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($login as $userCredentials): ?>
+        <tr>
+            <td><?= htmlspecialchars($userCredentials['Name']) ?></td>
+            <td><?= htmlspecialchars($userCredentials['Surname']) ?></td>
+            <td>
+                <?= $userCredentials['Login'] ? htmlspecialchars($userCredentials['Login']) : '<span style="color: red;">Без логина</span>' ?>
+            </td>
+            <td>
+                <?= $userCredentials['Password'] ? htmlspecialchars('HASHED') : '<span style="color: red;">Без пароля</span>' ?>
+            </td>
+            <td>
+            <button class="action-button" onclick="openEditCredentials(this, <?= $userCredentials['UserID']; ?>, '<?= htmlspecialchars($userCredentials['Login'] ?? '', ENT_QUOTES); ?>', '<?= htmlspecialchars($userCredentials['Password'] ?? '', ENT_QUOTES); ?>');">
+        <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh;">
+    </button>
 
 
-            
-        </td>
-    </tr>
-<?php endforeach; ?>
+                
+            </td>
+        </tr>
+    <?php endforeach; ?>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div id="editCredentialsModal">
@@ -414,11 +417,11 @@ $projects_on_page = array_slice($projects, $start_from, $records_per_page);
                         <td><?php echo formatDate($project['StartDate']); ?></td>
                         <td><?php echo formatDate($project['EndDate']); ?></td>
                         <td><?php echo $project['Status']; ?></td>
-                        <td>
+                        <td class = "button-td">
                             <button class="action-button" onclick="editProject(this, <?php echo $project['ProjectID']; ?>, '<?php echo htmlspecialchars($project['ProjectName'], ENT_QUOTES); ?>', '<?php echo $project['StartDate']; ?>', '<?php echo $project['EndDate']; ?>', '<?php echo $project['Status']; ?>')">
-                                <img src="ico/ed.png" alt="Edit"  style="width: 3vh; height: 3vh; margin: 0px; margin-left:20px">
+                                <img src="ico/ed.png" alt="Edit"  style="width: 3vh; height: 3vh; margin: 0px; ">
                             </button>
-                            <button class="action-button DLT" onclick="deleteProject(<?php echo $project['ProjectID']; ?>)">
+                            <button class="action-button" onclick="deleteProject(<?php echo $project['ProjectID']; ?>)">
                                 <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px">
                             </button>
                         </td>
@@ -490,100 +493,102 @@ function processRequest(requestID, action) {
 </script>
 <!-- Заявки вкладка -->
 <div id="requestsTab" class="tabcontent">
-    <h2>Заявки на участия</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Проект</th>
-                <th>Задача</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($pendingRequests)): ?>
-                <?php foreach ($pendingRequests as $request): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($request['Name']); ?></td>
-                        <td><?php echo htmlspecialchars($request['Surname']); ?></td>
-                        <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
-                        <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
-                        <td>
-                            <button class="addbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'approve')">Одобрить</button>
-                            <button class="delbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">Отклонить</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+    <div class = "zayavki-div">
+        <h2>Заявки на участия</h2>
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="5">Нет новых заявок.</td>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Проект</th>
+                    <th>Задача</th>
+                    <th>Действия</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-
-
- <h3>Принятые заявки</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Проект</th>
-                <th>Задача</th>
-                <th>Дата одобрения</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($approvedRequests)): ?>
-                <?php foreach ($approvedRequests as $request): ?>
+            </thead>
+            <tbody>
+                <?php if (!empty($pendingRequests)): ?>
+                    <?php foreach ($pendingRequests as $request): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($request['Name']); ?></td>
+                            <td><?php echo htmlspecialchars($request['Surname']); ?></td>
+                            <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
+                            <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
+                            <td>
+                                <button class="addbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'approve')">Одобрить</button>
+                                <button class="delbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">Отклонить</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($request['Name']); ?></td>
-                        <td><?php echo htmlspecialchars($request['Surname']); ?></td>
-                        <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
-                        <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
-                        <td><?php echo htmlspecialchars(formatDate($request['UpdatedAt'])); ?></td>
+                        <td colspan="5">Нет новых заявок.</td>
                     </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+
+    <h2>Принятые заявки</h2>
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="5">Нет принятых заявок.</td>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Проект</th>
+                    <th>Задача</th>
+                    <th>Дата одобрения</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-
-    <h2>Отклоненные заявки</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Проект</th>
-                <th>Задача</th>
-                <th>Дата отклонения</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($rejectedRequests)): ?>
-                <?php foreach ($rejectedRequests as $request): ?>
+            </thead>
+            <tbody>
+                <?php if (!empty($approvedRequests)): ?>
+                    <?php foreach ($approvedRequests as $request): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($request['Name']); ?></td>
+                            <td><?php echo htmlspecialchars($request['Surname']); ?></td>
+                            <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
+                            <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
+                            <td><?php echo htmlspecialchars(formatDate($request['UpdatedAt'])); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($request['Name']); ?></td>
-                        <td><?php echo htmlspecialchars($request['Surname']); ?></td>
-                        <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
-                        <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
-                        <td><?php echo htmlspecialchars(formatDate($request['UpdatedAt'])); ?></td>
+                        <td colspan="5">Нет принятых заявок.</td>
                     </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <h2>Отклоненные заявки</h2>
+
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="5">Нет отклоненных заявок.</td>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Проект</th>
+                    <th>Задача</th>
+                    <th>Дата отклонения</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php if (!empty($rejectedRequests)): ?>
+                    <?php foreach ($rejectedRequests as $request): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($request['Name']); ?></td>
+                            <td><?php echo htmlspecialchars($request['Surname']); ?></td>
+                            <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
+                            <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
+                            <td><?php echo htmlspecialchars(formatDate($request['UpdatedAt'])); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5">Нет отклоненных заявок.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
   
 </div>
 
@@ -659,12 +664,12 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
                         <td><?php echo $task['Location']; ?></td>
                         <td><?php echo formatDate($task['Date']); ?></td>
                         <td><?php echo $task['Status']; ?></td>
-                        <td>
+                        <td class = "button-td">
                             <button class="action-button" onclick="editTask(this, <?php echo $task['TaskID']; ?>, '<?php echo htmlspecialchars($task['Description'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['ProjectName'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['Location'], ENT_QUOTES); ?>', '<?php echo $task['Date']; ?>', '<?php echo htmlspecialchars($task['Status'], ENT_QUOTES); ?>');">
-                                <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; margin: 0px; margin-left:0px">
+                                <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; margin: 0px; ">
                             </button>
-                            <button class="action-button DLT" onclick="deleteTask(<?php echo $task['TaskID']; ?>)">
-                                <img src="ico/dl.png" alt="Delete" style="width: 4vh; height: 4vh; margin: 0px">
+                            <button class="action-button" onclick="deleteTask(<?php echo $task['TaskID']; ?>)">
+                                <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px; ">
                             </button>
                         </td>
                     </tr>
@@ -828,7 +833,7 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
             <button type="button" name="printPDF" class="generate" onclick="generatePDF()">На печать</button>
         </form>                     
 
-        <div id="napech">
+        <div id="napech" >
             <!-- Таблица будет загружаться сюда в зависимости от выбранного проекта -->
         </div>
     </div>
@@ -1018,7 +1023,7 @@ window.onclick = function(event) {
 
     
         <!-- Вывод таблицы с данными -->
-        <div id = "napech" class="table-panel" style="margin-top: 20px;">
+        <div id = "napech" class="table-panel" >
             <table>
                 <thead>
                     <tr>
@@ -1226,12 +1231,12 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
                     <td><?= htmlspecialchars($user['Address']); ?></td>
                     <td><?= htmlspecialchars($user['UserSkills']); ?></td>
                     <td><?= htmlspecialchars($user['Role']); ?></td>
-                    <td>
+                    <td class = "button-td">
                         <button class="action-button" onclick="editUser(this, '<?= htmlspecialchars($user['UserID']) ?>');">
-                            <img src="ico/ed.png" alt="Edit" style="width: 4vh; height: 4vh;">
+                            <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; margin: 0px; ">
                         </button>
-                        <button class="action-button DLT" onclick="deleteUser('<?= htmlspecialchars($user['UserID']) ?>')">
-                            <img src="ico/dl.png" alt="Delete" style="width: 4vh; height: 4vh;">
+                        <button class="action-button" onclick="deleteUser('<?= htmlspecialchars($user['UserID']) ?>')">
+                            <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px; ">
                         </button>
                     </td>
                 </tr>
@@ -1301,7 +1306,7 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
         <option value="Администратор">Администратор</option>
     </select>
     <button type="button" onclick="saveUserChanges()">Сохранить</button>
-    <button type="button" onclick="CancelUserChanges()">Отменить</button>
+    <button type="button" style="background:red;" onclick="CancelUserChanges()">Отменить</button>
 </form>
 
 

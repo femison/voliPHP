@@ -95,7 +95,7 @@ function editProject(button, projectId, projectName, startDate, endDate, status)
         editProjectForm.style.top = (rect.bottom + scrollTop) + 'px'; // Позиция под кнопкой
         
         // Смещаем форму влево. Например, на 200 пикселей левее, чем начало кнопки
-        var leftShift = 200; // Можно регулировать этот параметр
+        var leftShift = 300; // Можно регулировать этот параметр
         editProjectForm.style.left = (rect.left - leftShift) + 'px'; // Смещение влево
 
         editProjectForm.style.display = 'block';
@@ -490,10 +490,10 @@ function editTask(button, taskId, description, projectName, location, taskDate, 
       
 
         
-    var leftShift = 300;
+    var leftShift = 400;
     editTaskForm.style.position = "absolute";
     editTaskForm.style.top = (rect.bottom + scrollTop) + 'px';
-    editTaskForm.style.left = Math.max(rect.left - leftShift, 0) + 'px';
+    editTaskForm.style.left = Math.max(rect.left - leftShift, 20) + 'px';
 
     editUserForm.style.display = 'block';
         // Показываем форму
