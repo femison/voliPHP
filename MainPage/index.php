@@ -86,8 +86,10 @@ $conn->close();
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="style.css">
         <title>Главная страница</title>
-    </head>
-    
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
 <body>
 
 <div class="content">
@@ -129,12 +131,12 @@ $conn->close();
         </nav>
     </header>
 
-<section>
-
+<section class ="intro-secs">
+    <img class="man-image" src="ico\clean-forest.jpg" alt="" style = "z-index:0">
         <div class="intro">
-
+            
             <div class="Business_div_2">
-                
+           
                 <h1 class="legalising">
                     Волонтерская работа и ее значимость <br>
                     <span class="text-brand-primary">в современном обществе</span>
@@ -142,13 +144,12 @@ $conn->close();
 
                 <p class="Lower_Text">Как стать частью волонтерской команды и менять мир к лучшему?</p>
                 <a href="../registration/registerform.php">
-        <button class="RegisterBut">Регистрация волонтера</button>
-    </a>
+                    <button class="RegisterBut">Подать заявку</button>
+                </a>
             </div>
-
-            <img class="man-image" src="ico/volunteer.png" alt="">
-
-    </div>
+            
+        </div>
+        
 </section>
 
 <section class="Clients">
@@ -157,22 +158,23 @@ $conn->close();
 
     <div class="clientside">
         <div class="client-logo">
-            <img class="square" src="ico/les_hoz.png" alt="Charity">
+            
+            <img class="square" src="ico/les_hoz.png" alt="Charity" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/min_prirodi.png" alt="Community">
+            <img class="square" src="ico/min_prirodi.png" alt="Community" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/ohrana_prirodi.png" alt="NGO">
+            <img class="square" src="ico/ohrana_prirodi.png" alt="NGO" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/tvoj_geroj.png" alt="NGO">
+            <img class="square" src="ico/tvoj_geroj.png" alt="NGO" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/edinru.png" alt="NGO">
+            <img class="square" src="ico/edinru.png" alt="NGO" loading="lazy">
         </div>
         <div class="client-logo">
-            <img class="square" src="ico/Dobrorf_Logo.png" alt="NGO">
+            <img class="square" src="ico/Dobrorf_Logo.png" alt="NGO" >
         </div>
     </div>
 </section>
@@ -190,7 +192,7 @@ $conn->close();
                 <p>Заполните простую анкету за 5 минут</p>
             </div>
             <div class="step-card">
-                <div class="step-icon"><i class="fas fa-tasks"></i></div>
+                <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
                 <h3>Выбор проекта</h3>
                 <p>Подберите подходящее мероприятие</p>
             </div>
@@ -371,5 +373,34 @@ $conn->close();
     </section>
 </footer>
 
+
+
+<script>
+// Анимация появления секций
+const sections = document.querySelectorAll('section');
+        const checkVisibility = () => {
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8 && rect.bottom > 0) {
+                    section.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('resize', checkVisibility);
+        checkVisibility();
+
+        // Плавный скролл
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    
+</script>
 </body>
 </html>

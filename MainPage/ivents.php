@@ -10,10 +10,12 @@
 <body>
     <div class="content">
     <header class="bg-silver">
+
+        
         <nav class="flex-justify-between">
-            <div class="logo">
-                <a href="index.php">
-                    <img src="ico/Logo.svg" alt="BrandLogo">
+            <div class='logo'>
+                <a href="#">
+                    <img class = "logo-img" src="ico/logo.png" alt="BrandLogo">
                 </a>
             </div>
 

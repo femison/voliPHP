@@ -71,7 +71,7 @@ function openTab(event, tabName) {
 
 function editProject(button, projectId, projectName, startDate, endDate, status) {
     // Получаем элементы формы для редактирования
-    var editProjectForm = document.getElementById("editProjectForm");
+    var eForditProjectm = document.getElementById("editProjectForm");
     var editProjectName = document.getElementById("editProjectName");
     var editStartDate = document.getElementById("editStartDate");
     var editEndDate = document.getElementById("editEndDate");

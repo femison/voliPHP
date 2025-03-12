@@ -1,26 +1,35 @@
+
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #388E3C;
+    --section-spacing: 80px;
+    --transition-duration: 0.8s;
+}
+
 /* Общая сетка */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-
-
+    scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 /* Основная структура */
 .bg-silver {
-    background-color: #f0f0f0; 
-    width: 100%;
+    background: rgba(245, 247, 250);
     position: fixed;
-    z-index: 999;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
 }
 
 /* Основной контейнер для контента */
 .content {
     display: flex;
     flex-direction: column;
-   
+    
 }
 
 /* Блок навигации */
@@ -29,8 +38,9 @@ html, body {
     justify-content: space-between;
     align-items: center;
     gap: 25px;
-    background-color: rgb(245, 247, 250);
+    background-color: rgba(245, 247, 250);
     padding: 10px 40px;
+    box-shadow: 0 10px 15px 5px rgba(255, 255, 255, 0.5); /* Белая тень */
 }
 
 /* Сетка для списка элементов */
@@ -41,6 +51,16 @@ html, body {
     gap: 35px;
     font-family: 'Roboto', sans-serif;
     padding-left: 0;
+}
+
+.header-li {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.header-li:hover {
+    color: var(--primary-color);
 }
 
 .buttons {
@@ -95,11 +115,15 @@ width: 100%;
 
 /* Уникальные фоны для секций */
 .intro {
+    position: relative;
     display: flex;
     justify-content: space-around;
-    align-items: center;
-    background-color: #FFCDD2; /* Светлый красный */
-    padding: 17%;
+    align-items: center;    
+   
+    padding-top: 17%;
+    padding-bottom: 17%;
+    padding-left: 7%;
+    z-index: 1;
    
 }
 
@@ -132,6 +156,7 @@ width: 100%;
 .Lower_Text {
     font-size: 1.6em;
     text-align: center;
+    color: #FFFFE3;
 }
 
 .Lower_Text_clients {
@@ -142,9 +167,13 @@ width: 100%;
 
 .clientside {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(6, 14%);
+    justify-content: center;
     justify-items: center;
+}
+
+.Business_div_2{
+    padding-right: 10px;
 }
 
 .client-logo {
@@ -153,7 +182,7 @@ width: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-
+    cursor:pointer;
     
     display: flex;
     justify-content: center; 
@@ -191,28 +220,35 @@ width: 100%;
 .square{
     max-width: 100%;
     max-height:100% ;
+    
 }
 
 
 /* Секция с партнерами */
 .Clients {
-    background-color: #C8E6C9; /* Светлый зеленый */
-    padding: 60px 20px;
+    position: relative;
+    padding: 4rem 1rem;
     text-align: center;
+    background-color: white;
 }
+
+
+
 
 /* Описание раздела 'Как вы можете помочь' */
 .About_us {
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding: 60px 20px;
-    background-color: #FFE6C9; /* Желтый */
+    padding: 1rem 1rem;
+    padding-bottom: 4rem;
+   
 }
 
 
 .legalising{
     font-size:2.75rem;
+    color: #FFFFE3;
 }
 
 .Text_suitable {
@@ -228,7 +264,6 @@ width: 100%;
     align-items: center;
     gap: 20px;
     padding: 40px 0;
-    background-color: #FFCDD2; 
 }
 
 .Center_text_second {
@@ -238,8 +273,46 @@ width: 100%;
     color: #333;
 }
 
+.About_us{
+    background-color: #F4F6FB;
+}
+.intro-secs{
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    flex-direction: row;
 
+}
 
+.intro-secs::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    z-index: 1;
+    animation: waveFlow 3s infinite linear;
+  }
+  
+  
+  
+
+.man-image{
+    position: absolute; /* Помещаем картинку за текст */
+    top: 0;
+    left: 0;
+    width: 100%; /* Делаем картинку на весь экран */
+    height: 100%; /* Заполняем весь контейнер */
+    z-index: -1; /* Картинка за текстом */
+    object-fit: cover; /* Обеспечивает сохранение пропорций картинки при растяжении */
+    filter: blur(2px);
+    transition: filter 0.5s ease;
+}
+
+.intro-secs:hover .man-image {
+    filter: blur(0);
+  }
 
 
 .activity_section {
@@ -268,7 +341,7 @@ width: 100%;
     align-items: center;
     width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+    cursor: pointer;
 }
 
 
@@ -314,7 +387,7 @@ width: 100%;
 
 /* Секция помощи */
 .Helping_section {
-    background-color: #C8E6C9; /* Светлый зеленый */
+    background-color: #ffffff; 
     padding: 40px 0;
 }
 
@@ -341,11 +414,12 @@ width: 100%;
     width: 100%;
     max-width: 250px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .step-icon {
     font-size: 3em;
-    color: #FFEB3B;
+    color: black;
     margin-bottom: 15px;
 }
 
@@ -405,6 +479,9 @@ width: 100%;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding-bottom: 10vh;
+    margin-bottom: 5%;
+    
 }
 
 /* Футер */
@@ -609,4 +686,6 @@ footer {
 section.about-events{
     padding-top: 10vh;
 }
+
+
     
