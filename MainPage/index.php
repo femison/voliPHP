@@ -358,6 +358,9 @@ $conn->close();
 
 <footer>
     <section class="footer_section">
+
+        
+
         <div class="copyright-div">
             <p class="footer_text">Copyright © 2025 Volunteering Organization</p>
             <p class="footer_text">Все права защищены</p>

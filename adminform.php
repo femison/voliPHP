@@ -44,7 +44,7 @@ FROM
 JOIN users u ON ut.UserID = u.UserID
 JOIN tasks t ON ut.TaskID = t.TaskID
 JOIN taskinfo ti ON t.TaskID = ti.TaskID
-JOIN projects p ON t.ProjectID = p.ProjectID;";
+JOIN projects p ON t.ProjectID = p.ProjectID;" ;
 
 $usersExtendedQuery = "
 SELECT
@@ -1166,7 +1166,7 @@ function performAction(action, userTaskID) {
         <option value="Администратор">Администратор</option>
     </select>
 
-    <label for="userAddress">Адрес:</label>
+    <label for="userAddress">Город:</label>
     <input type="text" id="userAddress" name="userAddress">
 
     <label for="userSkills">Пожелания в работе:</label>
@@ -1205,7 +1205,7 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
                 <th>Телефон</th>
                 <th>Дата рождения</th>
                 <th>Пол</th>
-                <th>Адрес</th>
+                <th>Город</th>
                 <th>Пожелания в работе</th>
                 <th>Роль</th>
                 <th>Действия</th>
@@ -1296,7 +1296,7 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
     <input type="email" id="editUserEmail" placeholder="Email">
     <input type="text" id="editUserPhone" placeholder="Телефон">
     <input type="date" id="editUserDOB" placeholder="Дата рождения"> <!-- Добавленное поле -->
-    <input type="text" id="editUserAddress" placeholder="Адрес"> <!-- Добавленное поле -->
+    <input type="text" id="editUserAddress" placeholder="Город"> <!-- Добавленное поле -->
     <select id="editUserGender">
         <option value="м">Мужской</option>
         <option value="ж">Женский</option>

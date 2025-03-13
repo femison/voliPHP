@@ -90,8 +90,8 @@ body {
     }
 }
 .tabcontent {
-    padding-top: 60px; /* Adjust padding to provide space below the fixed tab bar */
-    margin-left: 320px; /* Adjust based on the width of the form container plus extra margin */
+    padding-top: 2vh; /* Adjust padding to provide space below the fixed tab bar */
+    padding-left: 17%; /* Adjust based on the width of the form container plus extra margin */
     height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
     overflow: auto;  /* Adds scrollbar to tab content if needed */
     z-index: 100;
@@ -113,8 +113,8 @@ body {
 }
 
 .directory {
-    padding: 20px;
-    overflow-x: auto;
+    padding: 30px;
+    
   
     height: 100%;
     box-sizing: border-box;
