@@ -68,6 +68,7 @@ unset($_SESSION['error_message']); // Удаляем сообщение посл
                 <input class='joinBut' type="submit" value="Войти">
             </form>
             <p>Нет аккаунта, <a href="registration/registerform.php">зарегистрируйся!</a></p>
+            <p>Вернуться на <a href="MainPage/index.php">главную</a></p>
         </div>
     </section>
 </body>

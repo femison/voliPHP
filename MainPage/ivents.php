@@ -124,20 +124,21 @@
 </div>
 
 <footer style="z-index:999;">
-    <section class="footer_section">
-        <div class="copyright-div">
-            <p class="footer_text">Copyright © 2025 Volunteering Organization</p>
-            <p class="footer_text">Все права защищены</p>
-            <a class="dog-link" href="../docs/Договор.pdf">Договор</a>
-        </div>
+<section class="footer_section">
 
-        <div class="email_div">
-            <p class="footer_text">Оставайтесь в курсе событий</p>
-            <label>
-                <input class="email-input" placeholder="Ваш Email"></input>
-            </label>
-        </div>
-    </section>
+        
+
+
+
+<div class="email_div">
+    <p class="footer_text">Наши Социальные Сети</p>
+    <label>
+        <p>Вк</p>
+        <p>Телеграм</p>
+        
+    </label>
+</div>
+</section>
 </footer>
 </body>
 </html>
