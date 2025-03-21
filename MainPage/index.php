@@ -119,7 +119,7 @@ $conn->close();
 
             <div class="buttons-container">
                 <a class = "login-text" href="../index.php">
-                    <button class="login-but">
+                    <button class="login-but" style="cursor: pointer;">
                         Войти
                         <div class="arrow-wrapper">
                             <div class="arrow"></div>
@@ -144,7 +144,7 @@ $conn->close();
 
                 <p class="Lower_Text">Как стать частью волонтерской команды и менять мир к лучшему?</p>
                 <a href="../registration/registerform.php">
-                    <button class="RegisterBut">Подать заявку</button>
+                    <button class="RegisterBut">Регистрация</button>
                 </a>
             </div>
             
@@ -153,7 +153,7 @@ $conn->close();
 </section>
 
 <section class="Clients">
-    <h1 class="Center_text">Наши партнеры и поддержка</h1>
+    <h1 class="title">Наши партнеры и поддержка</h1>
     <p class="Lower_Text_clients">Мы работаем с организациями, которые помогают улучшать общество.</p>
 
     <div class="clientside">
@@ -182,7 +182,7 @@ $conn->close();
 
 <section class="About_us">
     <div class="about-us">
-        <h1 class="Center_text_second">Станьте частью волонтерского движения</h1>
+        <h1 class="title">Станьте частью волонтерского движения</h1>
         <p class="Text_suitable">4 простых шага, чтобы начать помогать</p>
 
         <div class="steps-grid">
@@ -192,7 +192,7 @@ $conn->close();
                 <p>Заполните простую анкету за 5 минут</p>
             </div>
             <div class="step-card">
-                <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                <div class="step-icon"><i class="fa-duotone fa-solid fa-clipboard-list"></i></div>
                 <h3>Выбор проекта</h3>
                 <p>Подберите подходящее мероприятие</p>
             </div>
@@ -211,22 +211,21 @@ $conn->close();
 </section>
 
 
-<section>
-    <div class="flex-div">
-        <div class="first_div">
-            <h1>Организация мероприятий</h1>
+<section class="activity-types">
+    <h1 class="title">Наша миссия воплощается в действии</h1>
+    <div class="activity-types-grid">
+        <div class="type-item">
+            <h3>Организация мероприятий</h3>
             <p>Мы организуем различные мероприятия для нуждающихся.</p>
             <p class="second_str">Присоединяйтесь к нашим акциям.</p>
         </div>
-
-        <div class="second_div">
-            <h1>Образовательные программы</h1>
+        <div class="type-item">
+            <h3>Образовательные программы</h3>
             <p>Мы проводим обучающие сессии и тренинги.</p>
             <p class="second_str">Поделитесь своими знаниями и опытом.</p>
         </div>
-
-        <div class="third_div">
-            <h1>Социальные проекты</h1>
+        <div class="type-item">
+            <h3>Социальные проекты</h3>
             <p>Проекты для помощи людям в сложной жизненной ситуации.</p>
             <p class="second_str">Ваш вклад важен для каждого.</p>
         </div>
@@ -296,58 +295,63 @@ $conn->close();
 
 <section class="Helping_section">
     <div class="Helping_div">
-        <h1 class="title">
-            О платформе
-        </h1>
-        <p class = "opis">Мы организуем различные мероприятия для нуждающихся.</p>
-
-        
+        <h1 class="title">О платформе</h1>
+        <p class="Text_suitable">Мы организуем различные мероприятия для нуждающихся, создавая возможности для волонтеров менять мир к лучшему. Наша цель — объединить усилия людей, готовых помогать, и тех, кто нуждается в поддержке.</p>
+        <h2 class="subtitle">Что мы делаем?</h2>
+        <p class="extra-text">Мы поддерживаем проекты по всей стране, предлагаем обучение и ресурсы для волонтеров, а также создаем сообщество единомышленников, где каждый может внести свой вклад.</p>
     </div>
-    <div class = "table">
-        <div class="helping-grid">
-            <div class="activity-item">
-                <b class = 'int-user'> <?php echo $totalVolunteers; ?></b>
-                <p class="sec-text">Волонтеров</p>
-            </div>
-
-            <div class="activity-item">
-            <b class = 'int-user'> <?php echo $totalplaces; ?></b>
-                <p class="sec-text">Мест проведения</p>
-            </div>
-            
-            
-
-            <div class="activity-item">
-                <b class = 'int-user'> <?php echo $totalCompletedProjects; ?></b>
-                <p class="sec-text">Добрых дел</p>
-            </div>
-
-            <div class="activity-item">
-            <b class = 'int-user'> <?php echo $totalavalproj; ?></b>
-                <p class="sec-text">Доступных проектов</p>
-            </div>
+    <div class="helping-grid">
+        <div class="help-card">
+            <b class="int-user"><?php echo $totalVolunteers + 2939; ?></b>
+            <p class="sec-text">Волонтеров</p>
+            <p class="card-desc">Активных участников, готовых помогать.</p>
         </div>
-        
+        <div class="help-card">
+            <b class="int-user"><?php echo $totalplaces + 154; ?></b>
+            <p class="sec-text">Мест проведения</p>
+            <p class="card-desc">Точек, где проходят наши акции.</p>
+        </div>
+        <div class="help-card">
+            <b class="int-user"><?php echo $totalCompletedProjects + 518; ?></b>
+            <p class="sec-text">Добрых дел</p>
+            <p class="card-desc">Завершенных инициатив для общества.</p>
+        </div>
+        <div class="help-card">
+            <b class="int-user"><?php echo $totalavalproj + 221; ?></b>
+            <p class="sec-text">Доступных проектов</p>
+            <p class="card-desc">Возможностей присоединиться прямо сейчас.</p>
+        </div>
     </div>
 </section>
 
 <section class="Support_section">
     <div class="Business">
-        
-
         <div class="Business_div_2">
             <h1 class="title">Волонтерская поддержка</h1>
-            <p class = "Text_suitable">
-                Наша команда всегда готова поддержать волонтеров в их начинаниях. Мы предоставляем информационную, юридическую и практическую помощь.
+            <p class="Text_suitable">
+                Наша команда всегда готова поддержать волонтеров в их начинаниях. Мы предоставляем информационную, юридическую и практическую помощь, чтобы каждый участник мог сосредоточиться на главном — помощи другим. Наша цель — создать комфортные условия для вашей деятельности и обеспечить успех каждого проекта.
             </p>
-            <div class="support_options">
-                <ul class = "Text_suitable">
-                    <li><strong>Информационная поддержка:</strong> Предоставление актуальной информации о волонтерских проектах и событиях.</li>
-                    <li><strong>Юридическая помощь:</strong> Консультации по правовым вопросам, связанным с волонтерской деятельностью.</li>
-                    <li><strong>Практическая помощь:</strong> Помощь в организации мероприятий и в решении текущих вопросов на местах.</li>
-                </ul>
+            <h2 class="subtitle">Как мы помогаем?</h2>
+            <p class="extra-text">
+                От консультаций и обучения до прямой помощи на местах — мы рядом на каждом этапе вашего волонтерского пути.
+            </p>
+            <div class="support-grid">
+                <div class="support-item">
+                    <h2>Информационная поддержка</h2>
+                    <p>Предоставление актуальной информации о волонтерских проектах и событиях.</p>
+                    <p class="card-desc">Доступ к новостям, расписаниям и ресурсам.</p>
+                </div>
+                <div class="support-item">
+                    <h2>Юридическая помощь</h2>
+                    <p>Консультации по правовым вопросам, связанным с волонтерской деятельностью.</p>
+                    <p class="card-desc">Разъяснение прав и обязанностей волонтеров.</p>
+                </div>
+                <div class="support-item">
+                    <h2>Практическая помощь</h2>
+                    <p>Помощь в организации мероприятий и в решении текущих вопросов на местах.</p>
+                    <p class="card-desc">Поддержка логистики и координации.</p>
+                </div>
             </div>
-           
         </div>
     </div>
 </section>
@@ -368,9 +372,11 @@ $conn->close();
         </div>
 
         <div class="email_div">
-            <p class="footer_text">Оставайтесь в курсе событий</p>
+            <p class="footer_text">Наши Социальные Сети</p>
             <label>
-                <input class="email-input" placeholder="Ваш Email"></input>
+                <p>Вк</p>
+                <p>Телеграм</p>
+                
             </label>
         </div>
     </section>

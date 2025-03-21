@@ -56,7 +56,8 @@ function openTab(event, tabName) {
 
     var activeTab = document.getElementById(tabName);
     if (activeTab) {
-        activeTab.style.display = "block"; // Показываем нужную вкладку
+        activeTab.style.display = "flex"; 
+        activeTab.style.justifyContent = "center";
     } else {
         console.error(`Вкладка с именем "${tabName}" не найдена.`);
         return;
@@ -68,6 +69,35 @@ function openTab(event, tabName) {
     }
 }
 
+
+function openTabevents(event, tabName) {
+    var tabcontent = document.getElementsByClassName("tabcontent");
+    var tablinks = document.getElementsByClassName("tablinks");
+
+    // Скрываем все вкладки
+    for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Убираем класс 'active' у всех кнопок
+    for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+
+    var activeTab = document.getElementById(tabName);
+    if (activeTab) {
+        activeTab.style.display = "flex"; 
+        activeTab.style.justifyContent = "space-between";
+    } else {
+        console.error(`Вкладка с именем "${tabName}" не найдена.`);
+        return;
+    }
+
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add("active"); // Делаем кнопку активной
+        localStorage.setItem('activeTabId', event.currentTarget.id); // Сохраняем активную вкладку
+    }
+}
 
 function editProject(button, projectId, projectName, startDate, endDate, status) {
     // Получаем элементы формы для редактирования

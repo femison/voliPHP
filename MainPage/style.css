@@ -14,15 +14,17 @@ html, body {
     font-family: 'Roboto', sans-serif;
     scroll-behavior: smooth;
     overflow-x: hidden;
+    
 }
 
 /* Основная структура */
 .bg-silver {
     background: rgba(245, 247, 250);
-    position: fixed;
+    position: sticky;
     width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    top:0;
 }
 
 /* Основной контейнер для контента */
@@ -30,6 +32,10 @@ html, body {
     display: flex;
     flex-direction: column;
     
+}
+
+section.intro-secs.active{
+    height: 91.5vh;
 }
 
 /* Блок навигации */
@@ -172,8 +178,16 @@ width: 100%;
     justify-items: center;
 }
 
-.Business_div_2{
-    padding-right: 10px;
+.Business_div_2 {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.Business {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .client-logo {
@@ -229,7 +243,7 @@ width: 100%;
     position: relative;
     padding: 4rem 1rem;
     text-align: center;
-    background-color: white;
+    background-color: #FFF2F2;
 }
 
 
@@ -253,10 +267,10 @@ width: 100%;
 
 .Text_suitable {
     font-size: 1.25em;
-    margin-bottom: 40px;
-    color: #111;
+    color: #666;
+    max-width: 130vh;
+    margin: 0 auto 30px;
 }
-
 /* Секция с 'Организация мероприятий', 'Образовательные программы' и др. */
 .flex-div {
     display: flex;
@@ -284,17 +298,7 @@ width: 100%;
 
 }
 
-.intro-secs::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 150px;
-    z-index: 1;
-    animation: waveFlow 3s infinite linear;
-  }
-  
+
   
   
 
@@ -341,7 +345,7 @@ width: 100%;
     align-items: center;
     width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+   
 }
 
 
@@ -378,8 +382,8 @@ width: 100%;
 .title {
     font-size: 2.5em;
     font-weight: bold;
-    margin-bottom: 20px;
-    color: #333; /* Цвет текста */
+    
+    color: #2D336B; /* Цвет текста */
     display: flex;
     justify-content: center;
     
@@ -387,7 +391,7 @@ width: 100%;
 
 /* Секция помощи */
 .Helping_section {
-    background-color: #ffffff; 
+    background-color: #FFF2F2; 
     padding: 40px 0;
 }
 
@@ -414,12 +418,12 @@ width: 100%;
     width: 100%;
     max-width: 250px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
+    
 }
 
 .step-icon {
     font-size: 3em;
-    color: black;
+    
     margin-bottom: 15px;
 }
 
@@ -479,8 +483,8 @@ width: 100%;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-bottom: 10vh;
-    margin-bottom: 5%;
+    
+   
     
 }
 
@@ -618,27 +622,136 @@ footer {
     text-decoration: none;
 }
 
-.Helping_div{
+.Helping_div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+    margin-bottom: 40px;
 }
 
-.helping-grid{
+.Helping_section {
+    background-color: #ffffff;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.extra-text {
+    font-size: 1.15em;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 30px;
+}
+
+.subtitle {
+    font-size: 1.8em;
+    font-weight: 500;
+    color: #4CAF50; /* Цвет можно настроить */
+    margin: 20px 0 10px;
+}
+
+.helping-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 4 колонки */
-    gap: 10px 60px; /* Отступы между элементами: 10px по вертикали, 20px по горизонтали */
-    
-    max-width: 1200px; /* Ограничиваем максимальную ширину */
-    margin: 0 auto; /* Выравнивание грида по центру */
+    grid-template-columns: repeat(4, 1fr); /* 4 колонки */
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .table{
     display: flex;
     flex-direction: row;
     
+}
+
+.help-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.help-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.int-user {
+    font-size: 2em;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.sec-text {
+    font-size: 1.1em;
+    color: #333;
+    margin: 0 0 5px;
+}
+
+.help-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.int-user {
+    font-size: 2em;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.sec-text {
+    font-size: 1.1em;
+    color: #333;
+    margin: 0 0 5px;
+}
+
+.card-desc {
+    font-size: 0.9em;
+    color: #777;
+    margin: 0;
+}
+
+.opis {
+    font-size: 1.25em;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .helping-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 колонки на мобильных */
+    }
+
+    .int-user {
+        font-size: 1.5em;
+    }
+
+    .sec-text {
+        font-size: 1em;
+    }
+
+    .subtitle {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .helping-grid {
+        grid-template-columns: 1fr; /* 1 колонка на маленьких экранах */
+    }
+
+    .extra-text {
+        font-size: 1em;
+    }
 }
 
 .help-item{
@@ -686,5 +799,128 @@ section.about-events{
     padding-top: 10vh;
 }
 
+.Support_section {
+    padding: 40px;
+    background-color: #f4f4f9;
+    text-align: center;
+}
 
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+    gap: 20px; /* Отступы между карточками */
+    max-width: 1200px; /* Ограничиваем максимальную ширину */
+    margin: 0 auto;
+}
+
+.support-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.support-item h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
     
+}
+
+.support-item p {
+    font-size: 1em;
+    color: #666;
+    margin: 0 0 10px;
+    
+}
+
+.support-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .support-grid {
+        grid-template-columns: 1fr; /* 1 колонка на мобильных */
+    }
+
+    .support-item {
+        padding: 15px;
+    }
+
+    .subtitle {
+        font-size: 1.5em;
+    }
+
+    .Text_suitable, .extra-text {
+        font-size: 1.1em;
+    }
+}
+
+
+
+.activity-types {
+    padding: 40px 0;
+    background-color: #FFF2F2; /* Можно изменить фон, если нужно */
+    text-align: center;
+}
+
+.activity-types-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+    gap: 20px; /* Отступы между карточками */
+    max-width: 1200px; /* Ограничиваем максимальную ширину */
+    margin: 0 auto; /* Выравнивание по центру */
+}
+
+.type-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.type-item h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.type-item p {
+    font-size: 1em;
+    color: #666;
+    margin: 0 0 10px 0;
+}
+
+.type-item .second_str {
+    font-size: 0.95em;
+    color: #4CAF50; /* Цвет можно настроить под ваш стиль */
+    font-weight: 500;
+}
+
+.type-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .activity-types-grid {
+        grid-template-columns: 1fr; /* 1 колонка на мобильных */
+    }
+
+    .type-item {
+        padding: 15px;
+    }
+}
+
+.support-item .card-desc {
+    font-size: 0.9em;
+    color: #777;
+    margin: 0;
+}

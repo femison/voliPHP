@@ -189,7 +189,7 @@ mysqli_close($connect);
 <div class="tab">
     <button class="tablinks" onclick="openTab(event, 'projects')" id="projectsTabButton">Проекты</button>
     <button class="tablinks" onclick="openTab(event, 'tasks')" id="tasksTabButton">Задачи</button>
-    <button class="tablinks" onclick="openTab(event, 'usersTab')" id="usersTabButton">Участия</button>
+    <button class="tablinks" onclick="openTabevents(event, 'usersTab')" id="usersTabButton">Участия</button>
     <button class="tablinks" onclick="openTab(event, 'userCredentialsTab')" id="userCredentialsButton">Пользователи</button>
     <button class="tablinks" onclick="openTab(event, 'userlogTab')" id="userlogButton">Учетные записи</button>
     <button class="tablinks" onclick="openTab(event, 'requestsTab')" id="requestsTabButton">Заявки</button>
@@ -238,7 +238,7 @@ mysqli_close($connect);
 }
 </style>
 <div id="profile"  class="tabcontent">
-    <div style="z-index: 0;">
+    <div class = "profile-div" style="z-index: 0;">
         <h2>Информация о профиле</h2>
         <form id="profileForm" method="post" action="admin/update_profile.php">
             <label for="name">Имя:</label>
@@ -783,7 +783,7 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
 
 <iframe id="printFrame" style="display: none;"></iframe>
 
-<div id="usersTab" class="tabcontent">
+<div id="usersTab"  class="tabcontent">
     <div class="content-layout">
         <!-- Левая колонка для формы -->
         <div class="form-panel">
