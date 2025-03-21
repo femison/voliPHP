@@ -35,9 +35,9 @@ body {
     background-color: #777;
 }
 .table-panel {
-    padding: 20px;
+    padding-top: 4vh;
     background-color: #fff;
-    
+    padding-right: 7%;
     box-sizing: border-box;
     
 }
@@ -49,11 +49,11 @@ body {
     
 }
 
-.table-panel th,
-.table-panel td {
+.table-panel th, .table-panel td {
     border: 1px solid #ccc;
     padding: 10px 15px;
     text-align: left;
+    word-wrap: break-word;
 }
 
 .table-panel th {
@@ -90,35 +90,28 @@ body {
     }
 }
 .tabcontent {
-    padding-top: 2vh; /* Adjust padding to provide space below the fixed tab bar */
-    padding-left: 17%; /* Adjust based on the width of the form container plus extra margin */
-    height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
-    overflow: auto;  /* Adds scrollbar to tab content if needed */
-    z-index: 100;
     display: none;
+    flex-direction: row;
+    padding-top: 2vh;
+    padding-left: 0;
+    
+    overflow: auto;
+    z-index: 100;
 }
 
 .form-container {
-    position: fixed;
-    top: 40px; /* Below the tabs, with additional space */
-    left: 0;
-    width: 300px; /* Fixed width for the form */
-    height: calc(100vh - 60px); /* Full height minus tab height, adjusted for additional padding */
-    overflow-y: auto; /* Allows scrolling within the form */
+    width: 300px;
     padding: 15px;
-    background-color: #F6F5F2;
-    border-right: 1px solid #ddd;
+   
     z-index: 50;
-    
 }
 
 .directory {
+    flex: 1;
     padding: 30px;
-    
-  
-    height: 100%;
     box-sizing: border-box;
     z-index: 500;
+    
 }
 
 input[type="text"], input[type="date"], input[type="email"], select, textarea {
@@ -397,7 +390,20 @@ section{
 
 
 .zayavki-div{
-    padding-right: 10vh;
+    width: 70%;
+    padding-top:2vh ;
+   
 }
 
+.profile-div{
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2vh;
+}
+
+.usersTab{
+    justify-content: flex-start;
+}
 
