@@ -1,0 +1,192 @@
+Array
+(
+    [user_id] => 2
+    [project_id] => 106
+    [task_id] => 223
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 228
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 227
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 227
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 228
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 225
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 226
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 225
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 106
+    [task_id] => 223
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 106
+    [task_id] => 224
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 227
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 228
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 124
+    [task_id] => 260
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 124
+    [task_id] => 259
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 227
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 228
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 109
+    [task_id] => 229
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 109
+    [task_id] => 230
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 227
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 228
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 109
+    [task_id] => 230
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 109
+    [task_id] => 229
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 109
+    [task_id] => 230
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 106
+    [task_id] => 224
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 226
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 225
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 227
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 108
+    [task_id] => 227
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 225
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 226
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 226
+)
+Array
+(
+    [user_id] => 2
+    [project_id] => 107
+    [task_id] => 225
+)

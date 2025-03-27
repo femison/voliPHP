@@ -298,9 +298,7 @@ mysqli_close($connect);
             </tbody>
         </table>
     </div>
-</div>
-
-<div id="editCredentialsModal">
+    <div id="editCredentialsModal">
     <form action="admin\updateCR.php" method="post">
         <input type="hidden" id="editUserId" name="userId">
         <label for="editLogin">Логин:</label>
@@ -311,6 +309,9 @@ mysqli_close($connect);
         <button type="button" onclick="closeEditModal()">Отменить</button>
     </form>
 </div>
+
+</div>
+
 
 
 
@@ -340,7 +341,7 @@ function openEditCredentials(button, userId, currentLogin, currentPassword) {
     // Позиционирование модального окна
     modal.style.display = 'block';
     modal.style.position = 'absolute';
-    modal.style.top = (rect.bottom + scrollTop) + 'px'; // ниже кнопки
+    modal.style.top = (rect.bottom + scrollTop + 100 ) + 'px'; // ниже кнопки
     modal.style.left = (rect.left + scrollLeft) + 'px'; // выравнивание по левому краю кнопки
 
     // Предотвращение выхода модального окна за пределы экрана

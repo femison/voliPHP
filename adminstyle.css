@@ -227,7 +227,7 @@ th {
     background-color: #f9f9f9;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     padding: 10px;
-    z-index: 1; /* Убедитесь, что форма будет поверх других элементов */
+    z-index: 999; /* Убедитесь, что форма будет поверх других элементов */
     border-radius: 5px; /* Скругление углов */
 }
 
@@ -260,7 +260,7 @@ th {
     top: 70px; /* Отступ сверху */
     left: 50%; /* Центрирование по горизонтали */
     transform: translateX(-50%); /* Точное центрирование */
-    z-index: 1; /* Убедитесь, что форма находится над другими элементами */
+    z-index: 999; /* Убедитесь, что форма находится над другими элементами */
     width: 90%; /* Ширина формы */
     max-width: 400px; /* Максимальная ширина формы */
 }
@@ -301,18 +301,18 @@ th {
 
 
 #editCredentialsModal {
-    display: none; /* Изначально скрыто */
-    position: fixed; /* Фиксированное позиционирование */
-    left: 50%; /* Центрирование по горизонтали */
-    top: 50%; /* Центрирование по вертикали */
-    transform: translate(-50%, -50%); /* Смещение для точного центрирования */
-    width: 90%; /* Ширина формы */
-    max-width: 400px; /* Максимальная ширина формы */
-    background-color: #fff; /* Белый фон */
-    padding: 20px; /* Отступы вокруг содержимого */
-    border-radius: 8px; /* Скругленные углы */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Тень для всплывающего окна */
-    z-index: 5; /* Высокий уровень z-index для наложения поверх других элементов */
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1050;
 }
 
 #editCredentialsModal label {
@@ -346,6 +346,17 @@ th {
 
 #editCredentialsModal button:hover {
     opacity: 0.8; /* Прозрачность при наведении */
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1040;
+    display: none;
 }
 
 .delbt{

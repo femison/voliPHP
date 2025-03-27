@@ -133,13 +133,31 @@
 </section>
 
 
+<script>
+          function openModalWithProject(projectId, projectName) {
+        // Устанавливаем ID проекта и его название в модальном окне
+        document.getElementById('modalProjectId').value = projectId;
+        document.getElementById('modalProjectName').textContent = projectName;
+        
+        // Показываем модальное окно
+        document.querySelector('.modal-requests').style.display = 'block';
+        
+        // Загружаем задачи для этого проекта
+        loadTasksForProject(projectId);
+    }
+            closeModal = function() {
+                document.querySelector('.modal-requests').style.display = 'none';
+            }
+</script>
+
 
 
         <!-- Раздел проектов -->
-        <section id="projects" class="tabcontent">
+  <!-- Раздел проектов -->
+  <section id="projects" class="tabcontent">
             <h1>Список проектов</h1>
 
-            <div class="projects-section">
+            <div class="projects-section" id="active-projects">
                 <h2>Активные проекты</h2>
                 <div class="projects-container">
                     <?php
@@ -148,12 +166,13 @@
 
                     if (mysqli_num_rows($projects_result) > 0) {
                         while ($project = mysqli_fetch_assoc($projects_result)) {
-                            echo "<a href='' class='project active'>";
+                            echo "<div class='project active'>";
                             echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
                             echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
                             echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
                             echo "<p>Статус: " . htmlspecialchars($project['Status']) . "</p>";
-                            echo "</a>";
+                            echo "<button onclick=\"openModalWithProject(" . $project['ProjectID'] . ", '" . htmlspecialchars(addslashes($project['ProjectName'])) . "')\">Подать заявку</button>";
+                            echo "</div>";
                         }
                     } else {
                         echo "<p>Нет доступных активных проектов.</p>";
@@ -162,7 +181,10 @@
                 </div>
             </div>
 
-            <div class="projects-section">
+
+
+
+            <div class="projects-section" id="active-projects">
                 <h2>Завершённые проекты</h2>
                 <div class="projects-container">
                     <?php
@@ -171,12 +193,12 @@
 
                     if (mysqli_num_rows($completed_projects_result) > 0) {
                         while ($project = mysqli_fetch_assoc($completed_projects_result)) {
-                            echo "<a href='project_details.php?project_id=" . intval($project['ProjectID']) . "' class='project-completed'>";
+                            echo "<div class='project-completed'>";
                             echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
                             echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
                             echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
                             echo "<p>Статус: " . htmlspecialchars($project['Status']) . "</p>";
-                            echo "</a>";
+                            echo "</div>";
                         }
                     } else {
                         echo "<p>Нет завершённых проектов.</p>";
@@ -184,6 +206,8 @@
                     ?>
                 </div>
             </div>
+
+            
 
             <div class="projects-section">
                 <h2>Отменённые проекты</h2>
@@ -194,7 +218,7 @@
 
                     if (mysqli_num_rows($cancelled_projects_result) > 0) {
                         while ($project = mysqli_fetch_assoc($cancelled_projects_result)) {
-                            echo "<a href='project_details.php?project_id=" . intval($project['ProjectID']) . "' class='project-cancelled'>";
+                            echo "<a" . intval($project['ProjectID']) . "' class='project-cancelled'>";
                             echo "<h3>" . htmlspecialchars($project['ProjectName']) . "</h3>";
                             echo "<p>Начало: " . formatDate(htmlspecialchars($project['StartDate'])) . "</p>";
                             echo "<p>Завершение: " . formatDate(htmlspecialchars($project['EndDate'])) . "</p>";
@@ -207,7 +231,222 @@
                     ?>
                 </div>
             </div>
-        </section>
+
+<!-- Добавьте этот код в раздел projects перед закрывающим тегом </section> -->
+<div class="modal-requests" style ="display:none">
+    <div class="modal-content enhanced-modal">
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title">Заявка на участие в проекте</h2>
+        <form id="requestForm" method="post" action="volunteer/sendRequest.php">
+            <input type="hidden" name="project_id" id="modalProjectId">
+            
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Проект:</label>
+                <p id="modalProjectName" style="font-weight: bold; padding: 8px; background-color: #f5f5f5; border-radius: 4px;"></p>
+            </div>
+
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Выберите задачи:</label>
+                <div class="tasks-container">
+                    <div id="tasksContainer">
+                        <p>Загрузка задач...</p>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="task_id" id="selectedTaskId">
+
+            <div class="form-group" style="text-align: center;">
+                <button type="submit" class="submit-btn ">Отправить заявку</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+
+     function openModalWithProject(projectId, projectName) {
+        document.getElementById('modalProjectId').value = projectId;
+        document.getElementById('modalProjectName').textContent = projectName;
+        document.querySelector('.modal-requests').style.display = 'block';
+        loadTasksForProject(projectId);
+    }
+
+    function closeModal() {
+        document.querySelector('.modal-requests').style.display = 'none';
+    }
+
+    function loadTasksForProject(projectId) {
+    const tasksContainer = document.getElementById('tasksContainer');
+    tasksContainer.innerHTML = '<p>Загрузка задач...</p>';
+    
+    // Получаем ID текущего пользователя из PHP
+    const userId = <?php echo json_encode($userID ?? 0); ?>;
+    
+    // Загружаем задачи проекта и статусы заявок/назначений
+    Promise.all([
+        fetch(`volunteer/getTasks.php?project_id=${projectId}`).then(r => r.json()),
+        fetch(`volunteer/getUserRequests.php?user_id=${userId}`).then(r => r.json()),
+        fetch(`volunteer/getUserAssignments.php?user_id=${userId}`).then(r => r.json())
+    ])
+    .then(([tasks, userRequests, userAssignments]) => {
+        if (tasks.length > 0) {
+            let html = `
+            <table class="task-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;"></th>
+                        <th>Описание задачи</th>
+                        <th >Статус задачи</th>
+                        <th>Ваш статус</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            
+            tasks.forEach(task => {
+                // Проверяем, есть ли заявка на эту задачу
+                const hasRequest = userRequests.some(r => r.TaskID == task.TaskID);
+                // Проверяем, назначена ли задача пользователю
+                const isAssigned = userAssignments.some(a => a.TaskID == task.TaskID);
+                
+                // Определяем классы для строки
+                let rowClass = '';
+                let statusText = '';
+                
+                if (isAssigned) {
+                    rowClass = 'assigned-task';
+                    statusText = 'Вы выполняете';
+                } else if (hasRequest) {
+                    rowClass = 'requested-task';
+                    statusText = 'Заявка подана';
+                }
+                
+                html += `
+                <tr class="${rowClass}">
+                    <td class="task-checkbox-container">
+                        ${!isAssigned && !hasRequest ? 
+                          `<input type="checkbox" class="task-checkbox" value="${task.TaskID}">` : 
+                          '<span class="status-icon">✓</span>'}
+                    </td>
+                    <td>${task.Description}</td>
+                    <td><span class="task-status status-${task.Status.toLowerCase()}">${task.Status}</span></td>
+                    <td><span class="user-status">${statusText}</span></td>
+                </tr>`;
+            });
+            
+            html += `</tbody></table>`;
+            tasksContainer.innerHTML = html;
+        } else {
+            tasksContainer.innerHTML = '<p>Для этого проекта нет доступных задач</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка загрузки задач:', error);
+        tasksContainer.innerHTML = '<p>Ошибка загрузки данных</p>';
+    });
+}
+
+// Добавляем обработчик кнопке отправки
+document.addEventListener('DOMContentLoaded', function() {
+    const submitBtn = document.querySelector('.submit-btn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', submitApplication);
+    }
+});
+
+    function selectTask(rowElement, taskId) {
+        // Убираем выделение со всех строк
+        const allRows = document.querySelectorAll('.task-table tr');
+        allRows.forEach(row => {
+            row.classList.remove('selected-task');
+            row.querySelector('.task-checkbox').checked = false;
+        });
+        
+        // Добавляем выделение выбранной строке
+        rowElement.classList.add('selected-task');
+        rowElement.querySelector('.task-checkbox').checked = true;
+        
+        // Устанавливаем значение скрытого поля
+        document.getElementById('selectedTaskId').value = taskId;
+    }
+
+    async function submitApplication(event) {
+    event.preventDefault();
+    
+    const projectId = document.getElementById('modalProjectId').value;
+    const checkboxes = document.querySelectorAll('.task-checkbox:checked');
+    const userId = <?php echo json_encode($userID ?? 0); ?>;
+
+    if (checkboxes.length === 0) {
+        alert('Пожалуйста, выберите хотя бы одну задачу');
+        return;
+    }
+
+    const submitBtn = document.querySelector('.submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Отправка...';
+
+    let successCount = 0;
+    
+    for (const checkbox of checkboxes) {
+        const taskId = checkbox.value;
+        const taskRow = checkbox.closest('tr');
+        
+        try {
+            const response = await fetch('volunteer/sendRequest.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    project_id: projectId,
+                    task_id: taskId
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                successCount++;
+                // Обновляем строку задачи
+                taskRow.classList.remove('requested-task');
+                taskRow.classList.add('requested-task');
+                checkbox.replaceWith('<span class="status-icon">✓</span>');
+            }
+        } catch (error) {
+            console.error('Ошибка при отправке:', error);
+        }
+    }
+
+    if (successCount > 0) {
+        alert(`Успешно отправлено ${successCount} заявок!`);
+        // Обновляем список задач
+        loadTasksForProject(projectId);
+    } else {
+        alert('Не удалось отправить заявки');
+    }
+    
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Отправить заявку';
+}
+
+
+
+// Обновляем обработчик формы
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('requestForm');
+    if (form) {
+        form.addEventListener('submit', submitApplication);
+    }
+});
+
+
+</script>
+
+
+</section>
 
         <!-- Раздел заявок -->
         <section id="applications" class="tabcontent">
@@ -314,6 +553,10 @@
                 </tbody>
             </table>
         </section>
+
+        
+
+
     </main>
 
     <footer class="footer">
