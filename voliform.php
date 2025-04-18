@@ -327,7 +327,7 @@
                     <td class="task-checkbox-container">
                         ${!isAssigned && !hasRequest ? 
                           `<input type="checkbox" class="task-checkbox" value="${task.TaskID}">` : 
-                          '<span class="status-icon">✓</span>'}
+                          `<span class="status-icon">✓</span>`}
                     </td>
                     <td>${task.Description}</td>
                     <td><span class="task-status status-${task.Status.toLowerCase()}">${task.Status}</span></td>
@@ -413,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Обновляем строку задачи
                 taskRow.classList.remove('requested-task');
                 taskRow.classList.add('requested-task');
-                checkbox.replaceWith('<span class="status-icon">✓</span>');
+               
             }
         } catch (error) {
             console.error('Ошибка при отправке:', error);

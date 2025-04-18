@@ -13,6 +13,25 @@ include 'admin\logout.php';
 
 
 
+$requestsQuery = "
+    SELECT 
+        upa.RequestID,
+        u.Name,
+        u.Surname,
+        p.ProjectName,
+        t.Description AS TaskDescription,
+        ti.Location,
+        ti.Date AS TaskDate
+    FROM users_pending_approval upa
+    JOIN users u ON upa.UserID = u.UserID
+    JOIN projects p ON upa.ProjectID = p.ProjectID
+    JOIN tasks t ON upa.TaskID = t.TaskID
+    JOIN taskinfo ti ON t.TaskID = ti.TaskID
+    WHERE upa.Status = 'На рассмотрении'
+    ORDER BY upa.CreatedAt DESC
+";
+
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -81,7 +100,7 @@ if ($adminProfileResult && mysqli_num_rows($adminProfileResult) === 1) {
 
 
 
-
+$pendingRequests = fetchAll($requestsQuery);
 $usersExtended = fetchAll($usersExtendedQuery);
 $projects = fetchAll($projectsQuery);
 $tasks = fetchAll($tasksQuery);
@@ -122,16 +141,8 @@ foreach ($users as $user) {
 }
 
 // Получение заявок на участие
-$pendingRequestsQuery = "
-    SELECT r.RequestID, u.Name, u.Surname, p.ProjectName, t.Description AS TaskDescription, r.Status, r.UpdatedAt
-    FROM users_pending_approval r
-    JOIN users u ON r.UserID = u.UserID
-    JOIN projects p ON r.ProjectID = p.ProjectID
-    JOIN tasks t ON r.TaskID = t.TaskID
-    WHERE r.Status = 'В процессе'
-    ORDER BY r.RequestID DESC
-";
-$pendingRequests = fetchAll($pendingRequestsQuery);
+
+
 
 // Получение отклоненных заявок
 $rejectedRequestsQuery = "
@@ -495,7 +506,8 @@ function processRequest(requestID, action) {
 <!-- Заявки вкладка -->
 <div id="requestsTab" class="tabcontent">
     <div class = "zayavki-div">
-        <h2>Заявки на участия</h2>
+    <h2>Заявки на участие</h2>
+    
         <table>
             <thead>
                 <tr>
@@ -503,28 +515,36 @@ function processRequest(requestID, action) {
                     <th>Фамилия</th>
                     <th>Проект</th>
                     <th>Задача</th>
+                    <th>Место</th>
+               <th>Дата</th>
                     <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($pendingRequests)): ?>
-                    <?php foreach ($pendingRequests as $request): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($request['Name']); ?></td>
-                            <td><?php echo htmlspecialchars($request['Surname']); ?></td>
-                            <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
-                            <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
-                            <td>
-                                <button class="addbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'approve')">Одобрить</button>
-                                <button class="delbt"  onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">Отклонить</button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="5">Нет новых заявок.</td>
-                    </tr>
-                <?php endif; ?>
+            <?php if (!empty($pendingRequests)): ?>
+    <?php foreach ($pendingRequests as $request): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($request['Name']); ?></td>
+            <td><?php echo htmlspecialchars($request['Surname']); ?></td>
+            <td><?php echo htmlspecialchars($request['ProjectName']); ?></td>
+            <td><?php echo htmlspecialchars($request['TaskDescription']); ?></td>
+            <td><?php echo htmlspecialchars($request['Location']); ?></td>
+            <td><?php echo formatDate($request['TaskDate']); ?></td>
+            <td class="button-td">
+                <button class="action-button" onclick="processRequest(<?php echo $request['RequestID']; ?>, 'approve')">
+                    <img src="ico/approve.png" alt="Одобрить" style="width: 3vh; height: 3vh;">
+                </button>
+                <button class="action-button" onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">
+                    <img src="ico/reject.png" alt="Отклонить" style="width: 3vh; height: 3vh;">
+                </button>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+<?php else: ?>
+    <tr>
+        <td colspan="7">Нет заявок в процессе.</td>
+    </tr>
+<?php endif; ?>
             </tbody>
         </table>
 

@@ -72,6 +72,7 @@ if ($action == 'approve') {
     }
 
     echo "Заявка успешно одобрена.";
+    header("Location: ../adminform.php");
 } elseif ($action == 'reject') {
     // Проверяем, не была ли заявка уже отклонена
     if ($CurrentStatus == 'Отклонена') {
@@ -92,6 +93,7 @@ if ($action == 'approve') {
     }
 
     echo "Заявка успешно отклонена.";
+    header("Location: ../adminform.php");
 }
 
 mysqli_close($connect);
