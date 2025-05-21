@@ -431,10 +431,15 @@ $projects_on_page = array_slice($projects, $start_from, $records_per_page);
                         <td><?php echo $project['Status']; ?></td>
                         <td class = "button-td">
                             <button class="action-button" onclick="editProject(this, <?php echo $project['ProjectID']; ?>, '<?php echo htmlspecialchars($project['ProjectName'], ENT_QUOTES); ?>', '<?php echo $project['StartDate']; ?>', '<?php echo $project['EndDate']; ?>', '<?php echo $project['Status']; ?>')">
-                                <img src="ico/ed.png" alt="Edit"  style="width: 3vh; height: 3vh; margin: 0px; ">
+                                <img src="ico/ed.png" alt="Edit"  style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
+                                
                             </button>
                             <button class="action-button" onclick="deleteProject(<?php echo $project['ProjectID']; ?>)">
-                                <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px">
+                                <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
                             </button>
                         </td>
                     </tr>
@@ -532,10 +537,17 @@ function processRequest(requestID, action) {
             <td><?php echo formatDate($request['TaskDate']); ?></td>
             <td class="button-td">
                 <button class="action-button" onclick="processRequest(<?php echo $request['RequestID']; ?>, 'approve')">
-                    <img src="ico/approve.png" alt="Одобрить" style="width: 3vh; height: 3vh;">
+                    <img class="approve-btn" src="ico/like.png" alt="Одобрить" 
+     style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
+                    
                 </button>
                 <button class="action-button" onclick="processRequest(<?php echo $request['RequestID']; ?>, 'reject')">
-                    <img src="ico/reject.png" alt="Отклонить" style="width: 3vh; height: 3vh;">
+                    <img class="approve-btn" src="ico/dislike.png" alt="Одобрить" 
+     style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
                 </button>
             </td>
         </tr>
@@ -687,10 +699,14 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
                         <td><?php echo $task['Status']; ?></td>
                         <td class = "button-td">
                             <button class="action-button" onclick="editTask(this, <?php echo $task['TaskID']; ?>, '<?php echo htmlspecialchars($task['Description'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['ProjectName'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($task['Location'], ENT_QUOTES); ?>', '<?php echo $task['Date']; ?>', '<?php echo htmlspecialchars($task['Status'], ENT_QUOTES); ?>');">
-                                <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; margin: 0px; ">
+                                <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
                             </button>
                             <button class="action-button" onclick="deleteTask(<?php echo $task['TaskID']; ?>)">
-                                <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px; ">
+                                <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
                             </button>
                         </td>
                     </tr>
@@ -1254,10 +1270,14 @@ $users_on_page = array_slice($usersExtended, $start_from, $records_per_page);
                     <td><?= htmlspecialchars($user['Role']); ?></td>
                     <td class = "button-td">
                         <button class="action-button" onclick="editUser(this, '<?= htmlspecialchars($user['UserID']) ?>');">
-                            <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; margin: 0px; ">
+                            <img src="ico/ed.png" alt="Edit" style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
                         </button>
                         <button class="action-button" onclick="deleteUser('<?= htmlspecialchars($user['UserID']) ?>')">
-                            <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; margin: 0px; ">
+                            <img src="ico/dl.png" alt="Delete" style="width: 3vh; height: 3vh; cursor: pointer; transition: transform 0.2s ease;"
+     onmouseover="this.style.transform='scale(1.2)'" 
+     onmouseout="this.style.transform='scale(1)'">
                         </button>
                     </td>
                 </tr>
