@@ -847,34 +847,12 @@ $tasks_on_page = array_slice($tasks, $start_from, $records_per_page);
                     <button class="addbt" type="submit">Добавить</button>
                 </form>
                 <label for="printPDF" style="font-size: 15px;">Печать таблицы (Пользователь - Проект)</label>
-                <button name="printPDF" class="generate" onclick="openModal()">На печать</button>
+                <button name="printPDF" class="generate" onclick="generatePDF()">На печать</button>
         </div>
     </div>
 </div>
 
-<div id="modal" class="modal"> 
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>Печать таблицы</h2>
-        
-        <form action="">
-            <select id="projectSelecttt" name="projectIDDD" onchange="loadProjectTable()">
-                <option value="">Выберите проект</option>
-                <?php foreach ($projects as $project): ?>
-                    <option value="<?= htmlspecialchars($project['ProjectID']); ?>">
-                        <?= htmlspecialchars($project['ProjectName']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
 
-            <button type="button" name="printPDF" class="generate" onclick="generatePDF()">На печать</button>
-        </form>                     
-
-        <div id="napech" >
-            <!-- Таблица будет загружаться сюда в зависимости от выбранного проекта -->
-        </div>
-    </div>
-</div>
 
 <!-- iframe для печати -->
 <iframe id="printFrame" style="display:none;"></iframe>
@@ -995,9 +973,7 @@ function generatePDF() {
 
 
 // Функция для открытия модального окна
-function openModal() {
-    document.getElementById('modal').style.display = 'block';
-}
+
 
 // Функция для закрытия модального окна
 function closeModal() {
