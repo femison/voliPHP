@@ -204,7 +204,7 @@ mysqli_close($connect);
     <button class="tablinks" onclick="openTab(event, 'userCredentialsTab')" id="userCredentialsButton">Пользователи</button>
     <button class="tablinks" onclick="openTab(event, 'userlogTab')" id="userlogButton">Учетные записи</button>
     <button class="tablinks" onclick="openTab(event, 'requestsTab')" id="requestsTabButton">Заявки</button>
-    <button class="tablinks" onclick="openTab(event, 'profile')" id="profileTabButton">Профиль</button>
+    
     <form method="post" action="index.php">
         <button type="submit" class="logout-button">Выход</button>
         
